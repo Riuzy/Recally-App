@@ -1,1 +1,17 @@
-﻿import express from 'express';\r\nimport cors from 'cors';\r\nimport helmet from 'helmet';\r\n\r\nconst app = express();\r\napp.use(helmet());\r\napp.use(cors());\r\napp.use(express.json());\r\n\r\napp.get('/health', (_req, res) => {\r\n  res.json({ status: 'ok', service: 'recally-api' });\r\n});\r\n\r\nconst port = process.env.PORT || 4000;\r\napp.listen(port, () => {\r\n  console.log(API running on http://localhost:);\r\n});\r\n
+﻿import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+
+const app = express();
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok', service: 'recally-api' });
+});
+
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`API running on http://localhost:${port}`);
+});
