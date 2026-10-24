@@ -34,10 +34,9 @@ ios/Pods/
 ios/.symlinks/
 android/.gradle/
 android/app/build/
-*.freezed.dart
-*.g.dart
-*.gr.dart
-*.config.dart
+
+# Generated code is committed so the app builds right after clone.
+# Regenerate with: dart run build_runner build --delete-conflicting-outputs
 
 # Environment
 .env
