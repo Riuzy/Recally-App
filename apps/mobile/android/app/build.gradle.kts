@@ -1,4 +1,9 @@
-﻿namespace = "com.kyriez.recally"
+﻿plugins {
+    // AGP 9 has built-in Kotlin support, so the kotlin-android plugin is not applied.
+    id("com.android.application")
+    // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
+    id("dev.flutter.flutter-gradle-plugin")
+}
 
 android {
     namespace = "com.kyriez.recally"
@@ -6,12 +11,8 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
