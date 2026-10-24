@@ -1,104 +1,146 @@
 # Setup Firebase — Recally
 
-Dokumen ini mencatat langkah menghubungkan Recally ke Firebase. Sebagian langkah
-butuh akun Google pemilik project, jadi tidak bisa diotomatiskan lewat repo.
+Dokumen ini mencatat status koneksi Recally ke Firebase dan langkah yang masih
+butuh akun Google pemilik project.
 
-## Prasyarat
+## Ringkasan project
 
-- Node.js 22+ dan pnpm
-- Dart/Flutter SDK
-- Akun Google
+| Item | Nilai |
+| --- | --- |
+| Nama tampilan | `recally-app` |
+| Project ID | `recally-app-f1f3f` |
+| Project number | `1001950032387` |
+| Android app ID | `1:1001950032387:android:8b1459217c9ea6da7c9436` |
+| Package name | `com.kyriez.recally` |
+| SHA-1 debug | `21:DF:1D:ED:CE:C8:B3:3D:C7:E6:60:88:68:10:89:22:B6:7B:9D:2F` |
+| Region Firestore | `asia-southeast2` (Jakarta) — **belum dibuat** |
 
-## 1. Pasang tooling
+`.firebaserc` di root repo sudah menunjuk `default` → `recally-app-f1f3f`.
 
-```bash
-# Firebase CLI
-pnpm add -g firebase-tools
+## Status
+
+| Langkah | Status |
+| --- | --- |
+| Firebase CLI terpasang & login | ✅ `15.34.1`, akun `makabegamecarft@gmail.com` |
+| Project dibuat | ✅ `recally-app-f1f3f` |
+| Android app terdaftar | ✅ lewat `flutterfire configure` |
+| `firebase_options.dart` | ✅ `apps/mobile/lib/firebase_options.dart` |
+| `google-services.json` | ✅ `apps/mobile/android/app/google-services.json` |
+| SHA-1 debug terdaftar | ✅ lewat `firebase apps:android:sha:create` |
+| Build APK dengan Firebase | ✅ `flutter build apk --debug` |
+| **Cloud Firestore API aktif** | ❌ belum |
+| **Database Firestore dibuat** | ❌ belum |
+| **Provider Google diaktifkan** | ❌ belum |
+| **Rules & indexes di-deploy** | ❌ belum (menunggu database) |
+
+## Yang masih manual
+
+Firestore API dan Identity Toolkit tidak bisa diaktifkan lewat Firebase CLI, dan
+`gcloud` belum terpasang di mesin ini. Buka tautan berikut lalu klik **Enable**:
+
+| API | Tautan |
+| --- | --- |
+| Cloud Firestore | <https://console.developers.google.com/apis/api/firestore.googleapis.com/overview?project=recally-app-f1f3f> |
+| Identity Toolkit (Auth) | <https://console.developers.google.com/apis/api/identitytoolkit.googleapis.com/overview?project=recally-app-f1f3f> |
+
+Setelah API aktif:
+
+1. **Buat database** — [Firestore](https://console.firebase.google.com/project/recally-app-f1f3f/firestore):
+   **Create database** → **Production mode** → region `asia-southeast2` →
+   **Create**. Region tidak bisa diubah setelah dibuat.
+2. **Aktifkan Google Sign-In** —
+   [Authentication](https://console.firebase.google.com/project/recally-app-f1f3f/authentication/providers)
+   → **Get started** → **Google** → **Enable** → pilih *support email* →
+   **Save**.
+3. **Deploy rules & indexes** dari root repo:
+
+   ```powershell
+   firebase deploy --only firestore:rules,firestore:indexes --project=recally-app-f1f3f
+   ```
+
+## Setelah Google Sign-In aktif
+
+Mengaktifkan provider Google membuat *Web OAuth client* di project. Client ID
+itu wajib diisi supaya Google Sign-In di Android bisa menghasilkan ID token yang
+diterima Firebase Auth.
+
+1. Ambil ulang konfigurasi Android:
+
+   ```powershell
+   firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f
+   ```
+
+2. Cari objek `oauth_client` dengan `"client_type": 3`, salin `client_id`.
+3. Tempel ke `apps/mobile/lib/core/firebase/firebase_config.dart` pada
+   `googleServerClientId`.
+
+Tanpa langkah ini `AuthRepository.signInWithGoogle` melempar
+`GoogleSignInTokenException`.
+
+## Tooling
+
+```powershell
+# Firebase CLI (dipasang lewat npm karena bin pnpm belum ada di PATH)
+npm install -g firebase-tools
 
 # FlutterFire CLI
 dart pub global activate flutterfire_cli
 ```
 
-Kedua tool menaruh executable di folder yang mungkin belum ada di `PATH`:
-
-| Tool | Lokasi default di Windows |
+| Tool | Lokasi di Windows |
 | --- | --- |
-| `firebase` | `C:\Users\<user>\AppData\Local\pnpm\bin` |
-| `flutterfire` | `C:\Users\<user>\AppData\Local\Pub\Cache\bin` |
+| `firebase` | `C:\Users\<user>\AppData\Roaming\npm\firebase.ps1` |
+| `flutterfire` | `C:\Users\<user>\AppData\Local\Pub\Cache\bin\flutterfire.bat` |
 
-Kalau `firebase` atau `flutterfire` tidak dikenali, jalankan `pnpm setup` lalu
-restart terminal, atau panggil lewat path lengkap.
+`flutterfire` belum masuk `PATH`; panggil lewat path lengkap kalau perlu.
 
-## 2. Login
+Perintah yang sudah dijalankan untuk menghubungkan app:
 
-```bash
-firebase login
+```powershell
+cd apps/mobile
+flutterfire configure --project=recally-app-f1f3f --platforms=android --yes
 ```
 
-Perintah ini membuka browser. Selesaikan login dengan akun Google yang akan
-menjadi pemilik project.
+## SHA-1
 
-## 3. Buat project Firebase
+Debug keystore (dipakai `flutter run` dan build debug):
 
-Lewat [console.firebase.google.com](https://console.firebase.google.com):
-
-1. **Add project** → nama `Recally`
-2. Google Analytics: **matikan** (tidak dipakai)
-3. Catat **Project ID** (contoh: `recally-1a2b3`). ID ini dipakai di langkah 5.
-
-## 4. Aktifkan layanan
-
-| Layanan | Langkah |
-| --- | --- |
-| **Authentication** | Sign-in method → **Google** → Enable → simpan |
-| **Firestore Database** | Create database → **Production mode** → region `asia-southeast2` (Jakarta) |
-
-Production mode dipilih supaya tidak ada akses terbuka. Aturan akses sudah
-disiapkan di `firestore.rules` dan wajib di-deploy (langkah 7).
-
-## 5. Hubungkan app ke project
-
-Dari folder `apps/mobile`:
-
-```bash
-flutterfire configure --project=<PROJECT_ID>
-```
-
-Perintah ini menghasilkan:
-
-- `apps/mobile/lib/firebase_options.dart`
-- `apps/mobile/android/app/google-services.json`
-
-Pilih platform **android** saja saat diminta.
-
-## 6. Daftarkan SHA-1 (wajib untuk Google Sign-In)
-
-```bash
-keytool -list -v -alias androiddebugkey ^
-  -keystore "%USERPROFILE%\.android\debug.keystore" ^
+```powershell
+& "D:\Apk\Android\Android Studio\jbr\bin\keytool.exe" -list -v `
+  -alias androiddebugkey `
+  -keystore "$env:USERPROFILE\.android\debug.keystore" `
   -storepass android -keypass android
 ```
 
-Ambil baris **SHA1**, lalu di console: *Project settings → Your apps → Android →
-Add fingerprint*.
+Daftarkan hasilnya tanpa membuka console:
 
-Tanpa langkah ini, Google Sign-In akan gagal dengan error `ApiException: 10`.
+```powershell
+firebase apps:android:sha:create 1:1001950032387:android:8b1459217c9ea6da7c9436 `
+  <SHA1> --project=recally-app-f1f3f
 
-## 7. Deploy aturan dan index
-
-```bash
-firebase deploy --only firestore:rules,firestore:indexes --project=<PROJECT_ID>
+firebase apps:android:sha:list 1:1001950032387:android:8b1459217c9ea6da7c9436 `
+  --project=recally-app-f1f3f
 ```
 
-File yang dipakai:
+Saat rilis, tambahkan juga SHA-1 dari keystore release. Tanpa itu Google
+Sign-In di build rilis gagal dengan error `ApiException: 10`.
 
-| File | Isi |
-| --- | --- |
-| `firebase.json` | menunjuk ke rules dan indexes |
-| `firestore.rules` | user hanya bisa mengakses `users/{uid}/**` miliknya |
-| `firestore.indexes.json` | index untuk query sync `updatedAt` / `reviewedAt` |
+## Catatan build Android
 
-## 8. Struktur data
+`google_sign_in_android` 7.2.11 — versi terakhir yang masih kompatibel dengan
+Flutter 3.38 — masih memakai plugin `kotlin-android`, sementara AGP 9 sudah
+punya Kotlin bawaan. Karena itu `apps/mobile/android/gradle.properties` memuat:
+
+```properties
+android.builtInKotlin=false
+```
+
+dan `org.jetbrains.kotlin.android` diaplikasikan manual di `settings.gradle.kts`
+serta `app/build.gradle.kts`, dengan `jvmTarget` disamakan ke 17. Hapus
+opt-out ini setelah Flutter dan `google_sign_in_android` mendukung AGP 9
+(butuh Flutter ≥ 3.44).
+
+## Struktur data
 
 ```text
 users/{uid}
@@ -113,9 +155,11 @@ users/{uid}
 
 - `google-services.json` **boleh** di-commit; isinya konfigurasi client, bukan
   rahasia server.
-- **Service account key** untuk `apps/api` **tidak boleh** di-commit. Simpan di
-  environment variable `GOOGLE_APPLICATION_CREDENTIALS`.
 - `firebase_options.dart` juga boleh di-commit (berisi API key client).
+- **Service account key** untuk `apps/api` **tidak boleh** di-commit. Simpan di
+  luar repo dan arahkan lewat environment variable
+  `GOOGLE_APPLICATION_CREDENTIALS`. Pola `serviceAccountKey*.json` sudah masuk
+  `.gitignore`.
 
 ## Tanpa login
 

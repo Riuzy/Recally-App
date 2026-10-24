@@ -34,8 +34,8 @@ Monorepo menggunakan [pnpm workspaces](https://pnpm.io/workspaces).
 | Bagian | Teknologi | Keterangan |
 | --- | --- | --- |
 | **Mobile (Android-first)** | [Flutter](https://flutter.dev/) + [Dart](https://dart.dev/), [Riverpod](https://riverpod.dev/), [go_router](https://pub.dev/packages/go_router), [Drift](https://drift.simonbinder.eu/) | UI, state management, navigasi, dan local-first database |
-| **Backend API** | [Express](https://expressjs.com/) + [TypeScript](https://www.typescriptlang.org/), [Prisma](https://www.prisma.io/) | REST API untuk sinkronisasi opsional |
-| **Database** | [PostgreSQL](https://www.postgresql.org/) | Database untuk data tersinkronisasi |
+| **Backend API** | [Express](https://expressjs.com/) + [TypeScript](https://www.typescriptlang.org/) + [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup) | Layanan admin (statistik, moderasi), bukan jalur kritis aplikasi |
+| **Cloud** | [Firebase Authentication](https://firebase.google.com/docs/auth) (Google) + [Cloud Firestore](https://firebase.google.com/docs/firestore) | Login opsional dan target sinkronisasi |
 | **Type Sharing** | [OpenAPI](https://www.openapis.org/) | Kontrak API di `packages/contracts` |
 
 ---
@@ -65,7 +65,7 @@ Recally-app/
 ├── pnpm-workspace.yaml
 ├── apps/
 │   ├── mobile/      # Flutter app (Recally)
-│   └── api/         # Express + TypeScript + Prisma API
+│   └── api/         # Express + TypeScript (layanan admin Firebase)
 ├── packages/
 │   ├── contracts/   # OpenAPI spec
 │   └── types/       # Shared TypeScript types
@@ -87,7 +87,7 @@ Recally-app/
 - [Flutter](https://docs.flutter.dev/get-started/install) 3.38+ 
 - [Node.js](https://nodejs.org/) 22+
 - [pnpm](https://pnpm.io/) 11+
-- [PostgreSQL](https://www.postgresql.org/) (untuk API/sinkronisasi)
+- [Firebase CLI](https://firebase.google.com/docs/cli) (untuk deploy aturan Firestore)
 
 ### Instalasi
 ```bash

@@ -1,6 +1,13 @@
-﻿plugins {
-    // AGP 9 has built-in Kotlin support, so the kotlin-android plugin is not applied.
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    // Built-in Kotlin is disabled in gradle.properties because google_sign_in_android
+    // still applies the legacy kotlin-android plugin.
+    id("org.jetbrains.kotlin.android")
     id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    // END: FlutterFire Configuration
     // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -32,4 +39,12 @@ android {
 
 flutter {
     source = "../.."
+}
+
+// The Kotlin plugin defaults to the JDK that runs Gradle (25), while the Java
+// compile options above target 17. Keep both at 17.
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
