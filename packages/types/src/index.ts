@@ -1,0 +1,1 @@
+﻿export interface Deck {\r\n  id: string;\r\n  title: string;\r\n  icon?: string;\r\n}\r\n\r\nexport interface Card {\r\n  id: string;\r\n  deckId: string;\r\n  front: string;\r\n  back: string;\r\n  dueAt: string;\r\n}\r\n

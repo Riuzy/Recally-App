@@ -13,7 +13,7 @@ RECALLY membantu kamu menghafal materi dengan kartu belajar dan jadwal pengulang
 | Kode | Fitur |
 | --- | --- |
 | KF-1 | Membuat deck dan kartu depan/belakang |
-| KF-2 | Membuat kartu dari teks, tempelan teks, atau foto catatan (OCR) |
+| KF-2 | Membuat kartu dari teks atau tempelan teks |
 | KF-3 | Sesi berisi kartu yang jatuh tempo |
 | KF-4 | Penilaian ingatan manual: Lupa / Ragu / Ingat |
 | KF-5 | Jadwal pengulangan berikutnya dihitung otomatis |
@@ -24,6 +24,19 @@ RECALLY membantu kamu menghafal materi dengan kartu belajar dan jadwal pengulang
 | KF-10 | Tetap berfungsi tanpa koneksi |
 
 Alur belajar inti: **Tulis Jawaban → Periksa Jawaban → bandingkan "Jawabanmu" dan "Jawaban benar" → nilai Lupa/Ragu/Ingat → ringkasan**. Ada juga **Mode Hafalan** sebagai alternatif tanpa mengetik.
+
+---
+
+## Teknologi
+
+Monorepo menggunakan [pnpm workspaces](https://pnpm.io/workspaces).
+
+| Bagian | Teknologi | Keterangan |
+| --- | --- | --- |
+| **Mobile (Android-first)** | [Flutter](https://flutter.dev/) + [Dart](https://dart.dev/), [Riverpod](https://riverpod.dev/), [go_router](https://pub.dev/packages/go_router), [Drift](https://drift.simonbinder.eu/) | UI, state management, navigasi, dan local-first database |
+| **Backend API** | [Express](https://expressjs.com/) + [TypeScript](https://www.typescriptlang.org/), [Prisma](https://www.prisma.io/) | REST API untuk sinkronisasi opsional |
+| **Database** | [PostgreSQL](https://www.postgresql.org/) | Database untuk data tersinkronisasi |
+| **Type Sharing** | [OpenAPI](https://www.openapis.org/) | Kontrak API di `packages/contracts` |
 
 ---
 
@@ -48,26 +61,67 @@ Acuan lengkap (palet, token, komponen, state, aksesibilitas, anti-slop) ada di [
 Recally-app/
 ├── README.md
 ├── .gitignore
-├── docs/
-│   ├── README.md
-│   ├── analisis_kebutuhan_recally.md
-│   ├── RECALLY_Dokumen_Analisis_Kebutuhan.docx
-│   ├── RECALLY_Dokumen_Analisis_Kebutuhan.pdf
-│   ├── flow1.png
-│   ├── flow2.png
-│   ├── flow2_triptych.png
-│   └── design/
-│       └── desain.md
+├── package.json
+├── pnpm-workspace.yaml
+├── apps/
+│   ├── mobile/      # Flutter app (Recally)
+│   └── api/         # Express + TypeScript + Prisma API
+├── packages/
+│   ├── contracts/   # OpenAPI spec
+│   └── types/       # Shared TypeScript types
+└── docs/
+    ├── README.md
+    ├── analisis_kebutuhan_recally.md
+    ├── flow1.png
+    ├── flow2.png
+    ├── flow2_triptych.png
+    └── design/
+        └── desain.md
 ```
 
 ---
 
-## Mulai dari Mana
+## Mulai Pengembangan
 
-1. Baca README ini untuk gambaran produk dan fitur utama.
-2. Buka [`docs/design/desain.md`](docs/design/desain.md) sebagai acuan visual tunggal (light + dark).
-3. Lihat [`docs/analisis_kebutuhan_recally.md`](docs/analisis_kebutuhan_recally.md) untuk kebutuhan produk dan alur.
-4. Diagram alur ada di `docs/flow1.png`, `docs/flow2.png`, dan `docs/flow2_triptych.png`.
+### Prasyarat
+- [Flutter](https://docs.flutter.dev/get-started/install) 3.38+ 
+- [Node.js](https://nodejs.org/) 22+
+- [pnpm](https://pnpm.io/) 11+
+- [PostgreSQL](https://www.postgresql.org/) (untuk API/sinkronisasi)
+
+### Instalasi
+```bash
+# Install dependencies untuk monorepo
+pnpm install
+
+# Install dependencies Flutter
+cd apps/mobile
+flutter pub get
+```
+
+### Menjalankan Aplikasi
+
+**Mobile (Flutter):**
+```bash
+cd apps/mobile
+flutter run
+```
+
+**API (Express):**
+```bash
+cd apps/api
+pnpm dev
+```
+
+---
+
+## Konfigurasi
+
+- **Package ID (Android):** `com.kyriez.recally`
+- **App Name:** `Recally`
+- **Tema:** Light/Dark dengan mengikuti preferensi sistem (bisa diubah manual di Pengaturan)
+- **Auth:** Opsional. Aplikasi tetap bisa dipakai offline tanpa akun.
+- **Data:** Local-first. Data lokal tidak akan dihapus saat login/logout.
 
 ---
 
