@@ -1,4 +1,4 @@
-package com.riuzy.recally_mobile
+﻿package com.kyriez.recally
 
 import io.flutter.embedding.android.FlutterActivity
 
