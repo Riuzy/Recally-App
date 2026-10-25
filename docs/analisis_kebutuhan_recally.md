@@ -203,7 +203,7 @@ Arsitektur RECALLY dirancang sederhana dan berorientasi *offline*. Seluruh data 
 | **Mesin pengulangan** | Menghitung jadwal berikutnya dari penilaian pengguna (lupa, ragu, ingat) |
 | **Notifikasi lokal** | Mengirim pengingat harian pada jam yang ditentukan |
 | **Pengenalan teks (ML Kit)** | Mengubah foto catatan menjadi teks kartu di perangkat |
-| **Sinkronisasi cloud (opsional)** | Cadangan dan pemulihan data lintas perangkat dengan Firebase |
+| **Sinkronisasi cloud (opsional)** | Cadangan dan pemulihan data lintas perangkat dengan Supabase (Postgres) |
 
 *Prinsip arsitektur:* Data belajar disimpan di perangkat secara default sehingga aplikasi tetap berfungsi tanpa koneksi. Sinkronisasi cloud tidak menjadi ketergantungan utama dan dapat diaktifkan sesuai kebutuhan pengguna.
 
@@ -238,7 +238,7 @@ Perangkat lunak berikut digunakan untuk membangun antarmuka, menyimpan data, men
 | 4 | **`flutter_tts`** | Pengucapan kosakata untuk mendukung latihan listening. |
 | 5 | **Google ML Kit Text Recognition** | Pengenalan teks dari foto catatan langsung di perangkat. |
 | 6 | **`provider` atau `Riverpod`** | Pengelolaan state aplikasi agar antarmuka tetap konsisten. |
-| 7 | **Firebase Auth & Firestore (opsional)** | Login dan sinkronisasi cloud pada tahap lanjutan. |
+| 7 | **Supabase Auth & Postgres (opsional)** | Login dan sinkronisasi cloud pada tahap lanjutan. |
 | 8 | **Android Studio / VS Code, Git, GitHub** | Lingkungan pengembangan dan kontrol versi. |
 
 ---
@@ -361,7 +361,7 @@ Analisis menunjukkan bahwa masalah utama bukan terletak pada kurangnya materi be
 ## DAFTAR PUSTAKA
 
 1. Ebbinghaus, H. (1885). *Über das Gedächtnis: Untersuchungen zur experimentellen Psychologie*. Duncker & Humblot.
-2. Firebase. (n.d.). *Firebase Documentation*. https://firebase.google.com/docs
+2. Supabase. (n.d.). *Supabase Documentation*. https://supabase.com/docs
 3. Flutter Team. (n.d.). *Flutter Documentation*. https://docs.flutter.dev
 4. Google. (n.d.). *ML Kit Text Recognition*. https://developers.google.com/ml-kit/vision/text-recognition
 5. Republik Indonesia. (2022). *Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi*.

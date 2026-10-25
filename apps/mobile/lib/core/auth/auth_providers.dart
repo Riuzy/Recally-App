@@ -1,33 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../firebase/firebase_bootstrap.dart';
+import '../supabase/supabase_bootstrap.dart';
 import 'auth_repository.dart';
 
-/// `false` berarti Firebase tidak bisa diinisialisasi (offline atau project
-/// belum siap). Aplikasi tetap jalan dengan data lokal.
-final firebaseAvailableProvider = Provider<bool>(
-  (ref) => FirebaseBootstrap.isInitialized,
+/// `false` berarti Supabase tidak dikonfigurasi atau gagal init. Aplikasi
+/// tetap jalan penuh dengan data lokal.
+final supabaseAvailableProvider = Provider<bool>(
+  (ref) => SupabaseBootstrap.isInitialized,
 );
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  if (!ref.watch(firebaseAvailableProvider)) {
-    throw StateError('Firebase belum siap; fitur cloud dinonaktifkan.');
+final supabaseClientProvider = Provider<SupabaseClient>((ref) {
+  if (!ref.watch(supabaseAvailableProvider)) {
+    throw StateError('Supabase belum siap; fitur cloud dinonaktifkan.');
   }
-  return FirebaseAuth.instance;
+  return SupabaseBootstrap.client;
 });
 
 final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AuthRepository(ref.watch(firebaseAuthProvider)),
+  (ref) => AuthRepository(ref.watch(supabaseClientProvider)),
 );
 
 /// Sesi login saat ini; `null` berarti mode lokal tanpa akun.
-final authStateProvider = StreamProvider<User?>((ref) {
+final authStateProvider = StreamProvider<AuthState>((ref) {
   return ref.watch(authRepositoryProvider).authStateChanges();
 });
 
 final currentUserProvider = Provider<User?>((ref) {
-  final AsyncValue<User?> authState = ref.watch(authStateProvider);
-  return authState.valueOrNull ??
+  final authState = ref.watch(authStateProvider);
+  return authState.valueOrNull?.session?.user ??
       ref.watch(authRepositoryProvider).currentUser;
 });

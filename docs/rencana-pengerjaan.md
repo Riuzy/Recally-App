@@ -13,15 +13,17 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | Drift: `decks`, `cards`, `reviews`, `sync_states` + kolom sync | ✅ selesai |
 | Repository deck & kartu + `applyReview` transaksional | ✅ selesai |
 | SRS engine (Lupa/Ragu/Ingat) + 9 unit test | ✅ selesai |
-| Firebase project, Auth, Firestore, rules | ✅ terpasang & ter-deploy |
-| Bootstrap Firebase + `AuthRepository` | ✅ selesai |
+| Firebase project, Auth, Firestore, rules | ✅ **dihapus** — diganti Supabase |
+| Bootstrap Supabase + `AuthRepository` | ✅ selesai |
+| Skema Postgres + RLS (`supabase/migrations`) | ✅ selesai |
+| `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
 | **UI aplikasi** | ❌ belum ada (masih layar kosong) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |
 
 ## Prinsip yang tidak boleh dilanggar
 
 1. **Local-first.** Semua fitur inti jalan tanpa akun dan tanpa jaringan.
-   Firebase tidak pernah menjadi gerbang masuk aplikasi.
+   Cloud tidak pernah menjadi gerbang masuk aplikasi.
 2. **Alur belajar inti tidak diubah.** Tulis Jawaban → Periksa Jawaban →
    bandingkan → Lupa/Ragu/Ingat → ringkasan.
 3. **`design/desain.md` sumber kebenaran visual.** Tidak ada warna, radius,
@@ -131,20 +133,19 @@ perangkat restart.
 
 ## Milestone 3 — Cloud opsional
 
-### 3.1 Sinkronisasi Drift ⇄ Firestore
+### 3.1 Sinkronisasi Drift ⇄ Supabase
 
 | # | Tugas |
 | --- | --- |
 | 1 | `SyncService.push()`: kirim baris `dirty = true` (deck → kartu → review) per batch |
-| 2 | `SyncService.pull()`: ambil `updatedAt > lastPulledAt`, last-write-wins |
-| 3 | Propagasi soft delete (`deletedAt`) dua arah |
-| 4 | Simpan `lastPulledAt` di `sync_states` |
+| 2 | `SyncService.pull()`: ambil `updated_at >= kursor`, last-write-wins |
+| 3 | Propagasi soft delete (`deleted_at`) dua arah |
+| 4 | Simpan kursor per tabel di `sync_states` |
 | 5 | Status sync di UI: belum login, tersinkron, menunggu, gagal |
-| 6 | Sync dipicu manual + saat app dibuka, tidak ada listener realtime |
+| 6 | Sync dipicu manual + saat app dibuka, tanpa listener realtime |
 
-Catatan: `firestore.rules` mewajibkan semua field kartu ada saat create/update.
-Mapper harus selalu menulis field lengkap, termasuk `deckId` yang cocok dengan
-dokumen induk.
+Catatan: urutan penting. Push deck sebelum kartu, dan pull deck sebelum kartu,
+supaya foreign key tidak dilanggar. RLS memastikan `user_id` selalu cocok.
 
 **Selesai bila:** dua perangkat dengan akun sama berakhir di data identik,
 perubahan offline tetap terkirim setelah online, dan logout tidak menghapus
@@ -152,32 +153,35 @@ data lokal.
 
 ### 3.2 Layar Akun
 
-- Login Google, tampil nama/email/foto, tombol logout.
+- Login email + password, dan Google bila sudah dikonfigurasi.
+- Tampil nama/email, tombol logout.
 - Penjelasan singkat: "Data tetap tersimpan di perangkat setelah logout".
-- Kalau Firebase gagal init, layar ini menampilkan pesan, bukan crash.
+- Kalau Supabase tidak dikonfigurasi, layar ini menjelaskan mode lokal, bukan
+  crash.
 
-**Prasyarat:** provider Google aktif dan `googleServerClientId` terisi di
-`lib/core/firebase/firebase_config.dart`.
+**Prasyarat:** `env.json` berisi `SUPABASE_URL` dan `SUPABASE_ANON_KEY`.
+Untuk Google: `GOOGLE_WEB_CLIENT_ID` dan provider Google aktif di Supabase.
 
 ### 3.3 Admin API (`apps/api`)
 
-- Hapus Prisma dan seluruh referensi PostgreSQL.
-- `firebase-admin` dengan `GOOGLE_APPLICATION_CREDENTIALS`.
+- Hapus Prisma dan seluruh referensi PostgreSQL lama.
+- `@supabase/supabase-js` dengan service role key.
 - Endpoint: `GET /admin/health`, `GET /admin/stats`, `GET /admin/users`.
-- Verifikasi Firebase ID token pada setiap request.
+- Verifikasi JWT Supabase pada setiap request.
 
-**Selesai bila:** server jalan tanpa database relasional dan menolak request
-tanpa token valid.
+**Selesai bila:** server menolak request tanpa token valid dan tidak pernah
+mengirim service role key ke klien.
 
 ---
 
 ## Milestone 4 — Rilis
 
 - Ikon aplikasi + splash (dari `assets/icons`, `assets/images`).
-- Keystore release + daftarkan SHA-1 release ke Firebase.
-- `flutter build appbundle --release`, periksa ukuran.
+- Keystore release + daftarkan SHA-1 release ke Google Cloud (untuk Google
+  Sign-In) bila dipakai.
+- `flutter build appbundle --release --dart-define-from-file=env.json`.
 - Uji di perangkat fisik: offline, notifikasi, TTS, login.
-- README dan `docs/setup/firebase.md` diperbarui.
+- README dan `docs/setup/supabase.md` diperbarui.
 
 ---
 
@@ -197,7 +201,8 @@ memblokir apa pun; pengguna tetap bisa memakai aplikasi penuh tanpa akun.
 
 | Blocker | Dampak | Tindakan |
 | --- | --- | --- |
-| Provider Google belum aktif | `signInWithGoogle` gagal, `oauth_client` kosong di `google-services.json` | Aktifkan di Firebase Console |
-| `googleServerClientId` masih kosong | ID token tidak keluar di Android | Isi setelah provider aktif |
+| Project Supabase belum dibuat | `env.json` kosong, semua fitur cloud nonaktif | Buat project, jalankan `0001_init.sql` |
+| Google belum dikonfigurasi | `signInWithGoogle` gagal | Pakai email dulu, atau daftarkan OAuth client |
+| Sinkronisasi belum diuji ke server nyata | Bug mapping baru terlihat saat runtime | Uji setelah project Supabase ada |
 
-Selain dua hal itu, seluruh Milestone 1–2 tidak punya ketergantungan eksternal.
+Seluruh Milestone 1–2 tidak punya ketergantungan eksternal sama sekali.

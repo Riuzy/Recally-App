@@ -1,41 +1,53 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../firebase/firebase_config.dart';
+import '../supabase/supabase_config.dart';
 
-/// Google mengembalikan akun tanpa ID token, biasanya karena web OAuth client
-/// ID belum diisi di [FirebaseConfig.googleServerClientId] atau SHA-1 app
-/// belum terdaftar di Firebase Console.
+/// Google tidak mengembalikan ID token, biasanya karena SHA-1 app belum
+/// terdaftar atau `GOOGLE_WEB_CLIENT_ID` belum diisi.
 class GoogleSignInTokenException implements Exception {
   const GoogleSignInTokenException();
 
   @override
   String toString() =>
       'GoogleSignInTokenException: Google tidak mengembalikan ID token. '
-      'Periksa FirebaseConfig.googleServerClientId dan SHA-1 app.';
+      'Periksa GOOGLE_WEB_CLIENT_ID dan SHA-1 app.';
 }
 
-/// Pembungkus tipis Firebase Auth + Google Sign-In.
+/// `GOOGLE_WEB_CLIENT_ID` belum diisi saat build.
+class MissingGoogleClientIdException implements Exception {
+  const MissingGoogleClientIdException();
+
+  @override
+  String toString() =>
+      'MissingGoogleClientIdException: isi GOOGLE_WEB_CLIENT_ID lewat '
+      '--dart-define-from-file=env.json.';
+}
+
+/// Pembungkus Supabase Auth (+ Google Sign-In native di Android).
 ///
 /// Login bersifat opsional: semua method di sini hanya dipanggil dari layar
 /// Sinkronisasi/Akun, tidak pernah menghalangi pemakaian lokal.
 class AuthRepository {
-  AuthRepository(this._auth, {GoogleSignIn? googleSignIn})
+  AuthRepository(this._client, {GoogleSignIn? googleSignIn})
     : _googleSignIn = googleSignIn ?? GoogleSignIn.instance;
 
-  final FirebaseAuth _auth;
+  final SupabaseClient _client;
   final GoogleSignIn _googleSignIn;
 
   bool _googleInitialized = false;
 
-  /// Perubahan sesi login. Bernilai `null` saat pengguna belum/tidak login.
-  Stream<User?> authStateChanges() => _auth.authStateChanges();
+  /// Perubahan sesi login; `null` berarti belum/tidak login.
+  Stream<AuthState> authStateChanges() => _client.auth.onAuthStateChange;
 
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser => _client.auth.currentUser;
 
-  /// Menampilkan pemilih akun Google lalu menukar ID token dengan sesi
-  /// Firebase. Melempar [GoogleSignInException] kalau pengguna membatalkan.
-  Future<User?> signInWithGoogle() async {
+  /// Menampilkan pemilih akun Google, lalu menukar ID token ke sesi Supabase.
+  Future<void> signInWithGoogle() async {
+    if (SupabaseConfig.googleWebClientId.isEmpty) {
+      throw const MissingGoogleClientIdException();
+    }
+
     await _ensureGoogleInitialized();
 
     final GoogleSignInAccount account = await _googleSignIn.authenticate();
@@ -44,25 +56,42 @@ class AuthRepository {
       throw const GoogleSignInTokenException();
     }
 
-    final UserCredential result = await _auth.signInWithCredential(
-      GoogleAuthProvider.credential(idToken: idToken),
+    await _client.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
     );
-    return result.user;
+  }
+
+  Future<void> signInWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signInWithPassword(email: email, password: password);
+  }
+
+  Future<void> signUpWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signUp(email: email, password: password);
+  }
+
+  Future<void> sendPasswordReset(String email) {
+    return _client.auth.resetPasswordForEmail(email);
   }
 
   /// Mengakhiri sesi cloud. Data lokal (Drift) tidak disentuh.
   Future<void> signOut() async {
-    await _ensureGoogleInitialized();
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+    await _client.auth.signOut();
+    if (_googleInitialized) {
+      await _googleSignIn.signOut();
+    }
   }
 
   Future<void> _ensureGoogleInitialized() async {
     if (_googleInitialized) return;
-
-    const String serverClientId = FirebaseConfig.googleServerClientId;
     await _googleSignIn.initialize(
-      serverClientId: serverClientId.isEmpty ? null : serverClientId,
+      serverClientId: SupabaseConfig.googleWebClientId,
     );
     _googleInitialized = true;
   }

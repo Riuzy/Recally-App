@@ -42,13 +42,12 @@ android/app/build/
 .env
 .env.*
 !.env.example
+!env.example.json
+env.json
 
-# Firebase
-.firebase/
-firebase-debug.log
-firebase-debug.*.log
-serviceAccountKey*.json
-*-firebase-adminsdk-*.json
+# Supabase CLI
+supabase/.temp/
+supabase/.branches/
 
 # Editor & OS
 .DS_Store

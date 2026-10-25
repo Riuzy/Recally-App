@@ -14,10 +14,10 @@ docs/
 ├── flow1.png
 ├── flow2.png
 ├── flow2_triptych.png
-├── design/
-│   └── desain.md
-└── setup/
-    └── firebase.md
+│   ├── design/
+│   │   └── desain.md
+│   └── setup/
+│       └── supabase.md
 ```
 
 ## Mulai dari Mana

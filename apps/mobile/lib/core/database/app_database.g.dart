@@ -144,7 +144,7 @@ class Deck extends DataClass implements Insertable<Deck> {
   final DateTime updatedAt;
   final DateTime? deletedAt;
 
-  /// True when the row has local changes that still need to be pushed to Firestore.
+  /// True when the row has local changes that still need to be pushed to Supabase.
   final bool dirty;
   const Deck(
       {required this.id,

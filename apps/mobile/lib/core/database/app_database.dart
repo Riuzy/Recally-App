@@ -11,7 +11,7 @@ export 'tables.dart';
 
 part 'app_database.g.dart';
 
-/// Local-first database. This is the source of truth for the app; Firestore is
+/// Local-first database. This is the source of truth for the app; Supabase is
 /// only an optional sync target.
 @DriftDatabase(tables: [Decks, Cards, Reviews, SyncStates])
 class AppDatabase extends _$AppDatabase {

@@ -10,7 +10,7 @@ class Decks extends Table {
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();
 
-  /// True when the row has local changes that still need to be pushed to Firestore.
+  /// True when the row has local changes that still need to be pushed to Supabase.
   BoolColumn get dirty => boolean().withDefault(const Constant(true))();
 
   @override

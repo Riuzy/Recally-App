@@ -5,9 +5,6 @@ plugins {
     // still applies the legacy kotlin-android plugin.
     id("org.jetbrains.kotlin.android")
     id("com.android.application")
-    // START: FlutterFire Configuration
-    id("com.google.gms.google-services")
-    // END: FlutterFire Configuration
     // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
     id("dev.flutter.flutter-gradle-plugin")
 }
