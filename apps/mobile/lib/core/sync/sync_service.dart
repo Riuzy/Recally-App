@@ -154,7 +154,7 @@ class SyncService {
         _db.decks,
       )..where((t) => t.id.equals(id))).getSingleOrNull();
 
-      if (local == null || updatedAt.isAfter(local.updatedAt)) {
+      if (local == null || _isRemoteNewer(updatedAt, local.updatedAt)) {
         await _db
             .into(_db.decks)
             .insertOnConflictUpdate(
@@ -196,7 +196,7 @@ class SyncService {
         _db.cards,
       )..where((t) => t.id.equals(id))).getSingleOrNull();
 
-      if (local == null || updatedAt.isAfter(local.updatedAt)) {
+      if (local == null || _isRemoteNewer(updatedAt, local.updatedAt)) {
         await _db
             .into(_db.cards)
             .insertOnConflictUpdate(
@@ -290,6 +290,13 @@ class SyncService {
   }
 
   static String _iso(DateTime value) => value.toUtc().toIso8601String();
+
+  /// Drift menyimpan DateTime dalam detik, sedangkan Postgres menyimpan
+  /// mikrodetik. Bandingkan pada resolusi detik supaya baris yang sama tidak
+  /// di-insert ulang setiap sync.
+  static bool _isRemoteNewer(DateTime remote, DateTime local) {
+    return remote.toUtc().difference(local.toUtc()).inSeconds >= 1;
+  }
 
   static DateTime _date(Object? value) =>
       DateTime.parse(value as String).toLocal();
