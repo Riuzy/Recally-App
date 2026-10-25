@@ -17,6 +17,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.space8,
     required this.space10,
     required this.space12,
+    required this.motionFast,
+    required this.motionScreen,
+    required this.motionSlow,
   });
 
   final AppColors colors;
@@ -34,6 +37,15 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final double space10;
   final double space12;
 
+  /// Perubahan state, 180ms (desain §10).
+  final Duration motionFast;
+
+  /// Transisi layar, 200ms.
+  final Duration motionScreen;
+
+  /// Bottom sheet dan glow, 240ms.
+  final Duration motionSlow;
+
   static const light = AppThemeExtension(
     colors: AppColors.light,
     radiusCard: 16,
@@ -49,6 +61,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     space8: 32,
     space10: 40,
     space12: 48,
+    motionFast: Duration(milliseconds: 180),
+    motionScreen: Duration(milliseconds: 200),
+    motionSlow: Duration(milliseconds: 240),
   );
 
   static const dark = AppThemeExtension(
@@ -66,6 +81,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     space8: 32,
     space10: 40,
     space12: 48,
+    motionFast: Duration(milliseconds: 180),
+    motionScreen: Duration(milliseconds: 200),
+    motionSlow: Duration(milliseconds: 240),
   );
 
   @override
@@ -84,6 +102,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     double? space8,
     double? space10,
     double? space12,
+    Duration? motionFast,
+    Duration? motionScreen,
+    Duration? motionSlow,
   }) {
     return AppThemeExtension(
       colors: colors ?? this.colors,
@@ -100,6 +121,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       space8: space8 ?? this.space8,
       space10: space10 ?? this.space10,
       space12: space12 ?? this.space12,
+      motionFast: motionFast ?? this.motionFast,
+      motionScreen: motionScreen ?? this.motionScreen,
+      motionSlow: motionSlow ?? this.motionSlow,
     );
   }
 
@@ -121,6 +145,9 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       space8: space8,
       space10: space10,
       space12: space12,
+      motionFast: motionFast,
+      motionScreen: motionScreen,
+      motionSlow: motionSlow,
     );
   }
 }

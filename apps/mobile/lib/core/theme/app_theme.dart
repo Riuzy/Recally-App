@@ -18,6 +18,8 @@ class AppTheme {
         onError: Colors.white,
       ),
       extensions: [ext],
+      // InkRipple menghindari shader ink_sparkle yang tidak tersedia saat test.
+      splashFactory: InkRipple.splashFactory,
       appBarTheme: AppBarTheme(
         backgroundColor: c.surface,
         foregroundColor: c.ink,
@@ -142,6 +144,8 @@ class AppTheme {
         onError: Colors.white,
       ),
       extensions: [ext],
+      // InkRipple menghindari shader ink_sparkle yang tidak tersedia saat test.
+      splashFactory: InkRipple.splashFactory,
       appBarTheme: AppBarTheme(
         backgroundColor: c.surface,
         foregroundColor: c.ink,
