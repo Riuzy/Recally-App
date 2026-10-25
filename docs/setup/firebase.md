@@ -33,8 +33,25 @@ butuh akun Google pemilik project.
 | Database Firestore dibuat | ✅ `(default)`, region `asia-southeast2` |
 | Rules di-deploy | ✅ `firebase deploy --only firestore:rules` |
 | Indexes di-deploy | ✅ (file kosong — lihat catatan di bawah) |
-| **Provider Google diaktifkan** | ❌ belum |
-| **Web client ID diisi di `firebase_config.dart`** | ❌ belum |
+| **Provider Google diaktifkan** | ✅ |
+| **Web client ID diisi di `firebase_config.dart`** | ✅ |
+
+## Verifikasi cepat
+
+```powershell
+# Database ada
+firebase firestore:databases:list --project=recally-app-f1f3f
+
+# Provider Google aktif (oauth_client tipe 3 harus muncul)
+firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f
+```
+
+Nilai yang dipakai app:
+
+| Item | Nilai |
+| --- | --- |
+| Web client ID (`client_type: 3`) | `1001950032387-j3rpdvvjrshs7ps1ohot3jlb92q47c0a.apps.googleusercontent.com` |
+| Android client ID (`client_type: 1`) | `1001950032387-mfnki9og2274iqdhdbmdfed1aess0p4j.apps.googleusercontent.com` |
 
 ### Kenapa `firestore.indexes.json` kosong
 
@@ -49,38 +66,24 @@ dan API-nya menolak index single-field yang dideklarasikan manual:
 Index manual di file itu baru diperlukan kalau nanti ada query gabungan, misal
 `deckId == x` + urut `dueAt`.
 
-## Yang masih manual
-
-Tinggal satu: **aktifkan provider Google**.
-
-Buka [Authentication → Sign-in method](https://console.firebase.google.com/project/recally-app-f1f3f/authentication/providers)
-→ **Get started** (kalau belum) → **Google** → **Enable** → pilih *support
-email* → **Save**.
-
-Setelah itu verifikasi lewat CLI — `oauth_client` tidak boleh kosong lagi:
-
-```powershell
-firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f
-```
-
-## Setelah Google Sign-In aktif
+## Konfigurasi Google Sign-In
 
 Mengaktifkan provider Google membuat *Web OAuth client* di project. Client ID
-itu wajib diisi supaya Google Sign-In di Android bisa menghasilkan ID token yang
-diterima Firebase Auth.
+itu wajib diisi supaya Google Sign-In di Android menghasilkan ID token yang
+diterima Firebase Auth. Langkah yang sudah dilakukan:
 
-1. Ambil ulang konfigurasi Android:
+1. Ambil konfigurasi Android:
+   `firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f`
+2. Ambil `oauth_client` dengan `"client_type": 3`.
+3. Isi `googleServerClientId` di `apps/mobile/lib/core/firebase/firebase_config.dart`.
+4. Simpan hasil `sdkconfig` sebagai `apps/mobile/android/app/google-services.json`
+   (sekarang sudah memuat OAuth client Android dan Web).
 
-   ```powershell
-   firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f
-   ```
+Kalau nanti `googleServerClientId` dikosongkan, `AuthRepository.signInWithGoogle`
+akan melempar `GoogleSignInTokenException`.
 
-2. Cari objek `oauth_client` dengan `"client_type": 3`, salin `client_id`.
-3. Tempel ke `apps/mobile/lib/core/firebase/firebase_config.dart` pada
-   `googleServerClientId`.
-
-Tanpa langkah ini `AuthRepository.signInWithGoogle` melempar
-`GoogleSignInTokenException`.
+`client_type: 1` (Android) memuat `certificate_hash` — pastikan itu sama dengan
+SHA-1 terdaftar. Kalau berbeda, Google Sign-In gagal dengan `ApiException: 10`.
 
 ## Tooling
 
