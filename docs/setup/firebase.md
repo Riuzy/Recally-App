@@ -13,7 +13,8 @@ butuh akun Google pemilik project.
 | Android app ID | `1:1001950032387:android:8b1459217c9ea6da7c9436` |
 | Package name | `com.kyriez.recally` |
 | SHA-1 debug | `21:DF:1D:ED:CE:C8:B3:3D:C7:E6:60:88:68:10:89:22:B6:7B:9D:2F` |
-| Region Firestore | `asia-southeast2` (Jakarta) — **belum dibuat** |
+| Database Firestore | `projects/recally-app-f1f3f/databases/(default)` — STANDARD, Firestore Native |
+| Region Firestore | `asia-southeast2` (Jakarta) |
 
 `.firebaserc` di root repo sudah menunjuk `default` → `recally-app-f1f3f`.
 
@@ -28,35 +29,39 @@ butuh akun Google pemilik project.
 | `google-services.json` | ✅ `apps/mobile/android/app/google-services.json` |
 | SHA-1 debug terdaftar | ✅ lewat `firebase apps:android:sha:create` |
 | Build APK dengan Firebase | ✅ `flutter build apk --debug` |
-| **Cloud Firestore API aktif** | ❌ belum |
-| **Database Firestore dibuat** | ❌ belum |
+| Cloud Firestore API aktif | ✅ |
+| Database Firestore dibuat | ✅ `(default)`, region `asia-southeast2` |
+| Rules di-deploy | ✅ `firebase deploy --only firestore:rules` |
+| Indexes di-deploy | ✅ (file kosong — lihat catatan di bawah) |
 | **Provider Google diaktifkan** | ❌ belum |
-| **Rules & indexes di-deploy** | ❌ belum (menunggu database) |
+| **Web client ID diisi di `firebase_config.dart`** | ❌ belum |
+
+### Kenapa `firestore.indexes.json` kosong
+
+Query sinkronisasi hanya memakai satu field (`updatedAt > lastPulledAt`,
+`reviewedAt > lastPulledAt`). Firestore membuat index single-field otomatis,
+dan API-nya menolak index single-field yang dideklarasikan manual:
+
+```
+400 this index is not necessary, configure using single field index controls
+```
+
+Index manual di file itu baru diperlukan kalau nanti ada query gabungan, misal
+`deckId == x` + urut `dueAt`.
 
 ## Yang masih manual
 
-Firestore API dan Identity Toolkit tidak bisa diaktifkan lewat Firebase CLI, dan
-`gcloud` belum terpasang di mesin ini. Buka tautan berikut lalu klik **Enable**:
+Tinggal satu: **aktifkan provider Google**.
 
-| API | Tautan |
-| --- | --- |
-| Cloud Firestore | <https://console.developers.google.com/apis/api/firestore.googleapis.com/overview?project=recally-app-f1f3f> |
-| Identity Toolkit (Auth) | <https://console.developers.google.com/apis/api/identitytoolkit.googleapis.com/overview?project=recally-app-f1f3f> |
+Buka [Authentication → Sign-in method](https://console.firebase.google.com/project/recally-app-f1f3f/authentication/providers)
+→ **Get started** (kalau belum) → **Google** → **Enable** → pilih *support
+email* → **Save**.
 
-Setelah API aktif:
+Setelah itu verifikasi lewat CLI — `oauth_client` tidak boleh kosong lagi:
 
-1. **Buat database** — [Firestore](https://console.firebase.google.com/project/recally-app-f1f3f/firestore):
-   **Create database** → **Production mode** → region `asia-southeast2` →
-   **Create**. Region tidak bisa diubah setelah dibuat.
-2. **Aktifkan Google Sign-In** —
-   [Authentication](https://console.firebase.google.com/project/recally-app-f1f3f/authentication/providers)
-   → **Get started** → **Google** → **Enable** → pilih *support email* →
-   **Save**.
-3. **Deploy rules & indexes** dari root repo:
-
-   ```powershell
-   firebase deploy --only firestore:rules,firestore:indexes --project=recally-app-f1f3f
-   ```
+```powershell
+firebase apps:sdkconfig android 1:1001950032387:android:8b1459217c9ea6da7c9436 --project=recally-app-f1f3f
+```
 
 ## Setelah Google Sign-In aktif
 

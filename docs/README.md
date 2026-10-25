@@ -8,20 +8,24 @@ Dokumentasi produk, riset kebutuhan, dan sistem desain untuk aplikasi RECALLY.
 docs/
 ├── README.md
 ├── analisis_kebutuhan_recally.md
+├── rencana-pengerjaan.md
 ├── RECALLY_Dokumen_Analisis_Kebutuhan.docx
 ├── RECALLY_Dokumen_Analisis_Kebutuhan.pdf
 ├── flow1.png
 ├── flow2.png
 ├── flow2_triptych.png
-└── design/
-    └── desain.md
+├── design/
+│   └── desain.md
+└── setup/
+    └── firebase.md
 ```
 
 ## Mulai dari Mana
 
 1. Baca [`design/desain.md`](./design/desain.md) sebagai acuan visual tunggal.
 2. Baca [`analisis_kebutuhan_recally.md`](./analisis_kebutuhan_recally.md) untuk kebutuhan produk dan alur.
-3. Lihat diagram alur di `flow1.png` dan `flow2.png`.
+3. Lihat urutan pengerjaan di [`rencana-pengerjaan.md`](./rencana-pengerjaan.md).
+4. Lihat diagram alur di `flow1.png` dan `flow2.png`.
 
 ## Catatan
 
