@@ -95,6 +95,10 @@ Recally-app/
 # Install dependencies untuk monorepo
 pnpm install
 
+# Terapkan skema Postgres ke Supabase (butuh apps/api/.env)
+pnpm db:migrate
+pnpm db:verify
+
 # Install dependencies Flutter
 cd apps/mobile
 flutter pub get
@@ -105,8 +109,9 @@ flutter pub get
 **Mobile (Flutter):**
 ```bash
 cd apps/mobile
-flutter run
+flutter run --dart-define-from-file=env.json
 ```
+Tanpa `env.json`, aplikasi tetap berjalan penuh secara lokal (tanpa akun/sync).
 
 **API (Express):**
 ```bash

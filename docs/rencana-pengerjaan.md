@@ -15,7 +15,7 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | SRS engine (Lupa/Ragu/Ingat) + 9 unit test | ✅ selesai |
 | Firebase project, Auth, Firestore, rules | ✅ **dihapus** — diganti Supabase |
 | Bootstrap Supabase + `AuthRepository` | ✅ selesai |
-| Skema Postgres + RLS (`supabase/migrations`) | ✅ selesai |
+| Skema Postgres + RLS (`supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
 | `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
 | **UI aplikasi** | ❌ belum ada (masih layar kosong) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |
@@ -201,8 +201,8 @@ memblokir apa pun; pengguna tetap bisa memakai aplikasi penuh tanpa akun.
 
 | Blocker | Dampak | Tindakan |
 | --- | --- | --- |
-| Project Supabase belum dibuat | `env.json` kosong, semua fitur cloud nonaktif | Buat project, jalankan `0001_init.sql` |
+| Anon key Supabase belum diisi di `env.json` | Fitur cloud nonaktif, aplikasi jalan lokal | Ambil dari Project Settings → API |
 | Google belum dikonfigurasi | `signInWithGoogle` gagal | Pakai email dulu, atau daftarkan OAuth client |
-| Sinkronisasi belum diuji ke server nyata | Bug mapping baru terlihat saat runtime | Uji setelah project Supabase ada |
+| Sinkronisasi belum diuji end-to-end | Bug mapping baru terlihat saat runtime | Uji setelah `env.json` lengkap |
 
 Seluruh Milestone 1–2 tidak punya ketergantungan eksternal sama sekali.

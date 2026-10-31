@@ -31,8 +31,20 @@ lambat.
 
 ## 2. Jalankan skema
 
-Buka *SQL Editor* lalu tempel isi [`supabase/migrations/0001_init.sql`](../../supabase/migrations/0001_init.sql),
-atau dengan Supabase CLI:
+Cara utama (tanpa perlu Supabase CLI):
+
+```powershell
+# butuh apps/api/.env berisi DIRECT_URL
+pnpm db:migrate
+
+# opsional: pastikan RLS menahan data antar pengguna
+pnpm db:verify
+```
+
+`db:migrate` menjalankan semua file di `supabase/migrations` yang belum pernah
+diterapkan, dicatat di tabel `public.schema_migrations`, sehingga aman diulang.
+
+Alternatif dengan Supabase CLI:
 
 ```powershell
 supabase link --project-ref <project-ref>
