@@ -6,11 +6,7 @@ settings:
 
 importers:
 
-  .:
-    devDependencies:
-      pg:
-        specifier: ^8.16.3
-        version: 8.23.1
+  .: {}
 
   apps/api:
     dependencies:
@@ -51,6 +47,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.10
+      pg:
+        specifier: ^8.16.3
+        version: 8.23.1
       prisma:
         specifier: ^5.20.0
         version: 5.22.0

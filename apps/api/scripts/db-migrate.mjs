@@ -1,20 +1,23 @@
 // Menjalankan migrasi SQL Recally ke Postgres/Supabase.
 //
+//   cd apps/api
 //   pnpm db:migrate
 //
 // Membaca DIRECT_URL dari apps/api/.env (atau environment). Setiap file di
-// supabase/migrations dijalankan sekali dan dicatat di public.schema_migrations,
-// jadi aman dijalankan berulang.
+// apps/api/supabase/migrations dijalankan sekali dan dicatat di
+// public.schema_migrations, jadi aman dijalankan berulang.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 
-const repoRoot = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
-const migrationsDir = join(repoRoot, 'supabase', 'migrations');
+// Script ini berada di apps/api/scripts.
+const apiRoot = fileURLToPath(new URL('..', import.meta.url));
+const migrationsDir = join(apiRoot, 'supabase', 'migrations');
 
 function readDotEnv() {
   try {
-    const raw = readFileSync(join(repoRoot, 'apps', 'api', '.env'), 'utf8');
+    const raw = readFileSync(join(apiRoot, '.env'), 'utf8');
     const values = {};
     for (const line of raw.split(/\r?\n/)) {
       const match = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());

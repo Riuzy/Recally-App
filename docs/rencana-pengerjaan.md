@@ -15,7 +15,7 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | SRS engine (Lupa/Ragu/Ingat) + 9 unit test | ✅ selesai |
 | Firebase project, Auth, Firestore, rules | ✅ **dihapus** — diganti Supabase |
 | Bootstrap Supabase + `AuthRepository` | ✅ selesai |
-| Skema Postgres + RLS (`supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
+| Skema Postgres + RLS (`apps/api/supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
 | `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
 | **UI aplikasi** | ❌ belum ada (masih layar kosong) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |

@@ -7,10 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "db:migrate": "node scripts/db-migrate.mjs",
-    "db:verify": "node scripts/db-verify.mjs"
-  },
-  "devDependencies": {
-    "pg": "^8.16.3"
+    "db:migrate": "pnpm --filter @recally/api db:migrate",
+    "db:verify": "pnpm --filter @recally/api db:verify"
   }
 }

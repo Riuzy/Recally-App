@@ -1,18 +1,21 @@
 // Memeriksa bahwa Row Level Security benar-benar menahan data antar pengguna.
 //
+//   cd apps/api
 //   pnpm db:verify
 //
 // Mensimulasikan sesi `authenticated` dengan dua user id berbeda, tanpa
 // memerlukan akun sungguhan. Keluar dengan kode 1 kalau ada kebocoran.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 
-const repoRoot = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+// Script ini berada di apps/api/scripts.
+const apiRoot = fileURLToPath(new URL('..', import.meta.url));
 
 function readDotEnv() {
   try {
-    const raw = readFileSync(join(repoRoot, 'apps', 'api', '.env'), 'utf8');
+    const raw = readFileSync(join(apiRoot, '.env'), 'utf8');
     const values = {};
     for (const line of raw.split(/\r?\n/)) {
       const match = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());

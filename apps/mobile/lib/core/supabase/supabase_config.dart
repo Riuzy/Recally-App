@@ -8,8 +8,12 @@ class SupabaseConfig {
   /// URL project, mis. `https://abcdefgh.supabase.co`.
   static const String url = String.fromEnvironment('SUPABASE_URL');
 
-  /// Anon key (publishable). Aman dibundel; keamanan dijaga RLS.
-  static const String anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+  /// Key publik (anon key legacy atau key baru `sb_publishable_...`).
+  /// Aman dibundel; keamanan dijaga RLS di Postgres.
+  static const String anonKey = String.fromEnvironment(
+    'SUPABASE_ANON_KEY',
+    defaultValue: String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+  );
 
   /// Web client ID Google, dipakai `signInWithIdToken`.
   static const String googleWebClientId = String.fromEnvironment(

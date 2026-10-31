@@ -35,16 +35,20 @@ Cara utama (tanpa perlu Supabase CLI):
 
 ```powershell
 # butuh apps/api/.env berisi DIRECT_URL
+cd apps/api
 pnpm db:migrate
 
 # opsional: pastikan RLS menahan data antar pengguna
 pnpm db:verify
 ```
 
-`db:migrate` menjalankan semua file di `supabase/migrations` yang belum pernah
-diterapkan, dicatat di tabel `public.schema_migrations`, sehingga aman diulang.
+Dari root repo juga bisa lewat alias: `pnpm db:migrate` / `pnpm db:verify`.
 
-Alternatif dengan Supabase CLI:
+`db:migrate` menjalankan semua file di `apps/api/supabase/migrations` yang belum
+pernah diterapkan, dicatat di tabel `public.schema_migrations`, sehingga aman
+diulang.
+
+Alternatif dengan Supabase CLI (dari `apps/api`):
 
 ```powershell
 supabase link --project-ref <project-ref>
@@ -93,6 +97,9 @@ Isi nilainya, lalu jalankan:
 cd apps/mobile
 flutter run --dart-define-from-file=env.json
 ```
+
+`SUPABASE_ANON_KEY` menerima anon key lama maupun key baru berformat
+`sb_publishable_...`; keduanya aman dibundel karena akses dibatasi RLS.
 
 Tanpa `env.json`, aplikasi tetap berjalan: `SupabaseConfig.isConfigured` bernilai
 `false` dan semua fitur cloud dinonaktifkan dengan rapi.

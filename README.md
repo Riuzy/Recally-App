@@ -66,7 +66,9 @@ Recally-app/
 ├── pnpm-workspace.yaml
 ├── apps/
 │   ├── mobile/      # Flutter app (Recally)
-│   └── api/         # Express + TypeScript (layanan admin Supabase)
+│   └── api/         # Backend: Express, migrasi Postgres, skrip DB
+│       ├── scripts/     # db:migrate, db:verify
+│       └── supabase/    # migrasi SQL + policy RLS
 ├── packages/
 │   ├── contracts/   # OpenAPI spec
 │   └── types/       # Shared TypeScript types

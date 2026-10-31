@@ -46,8 +46,8 @@ android/app/build/
 env.json
 
 # Supabase CLI
-supabase/.temp/
-supabase/.branches/
+**/supabase/.temp/
+**/supabase/.branches/
 
 # Editor & OS
 .DS_Store
