@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/decks/presentation/deck_detail_screen.dart';
 import '../../features/decks/presentation/decks_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
@@ -34,6 +35,14 @@ class AppRouter {
                 path: '/decks',
                 name: 'decks',
                 builder: (context, state) => const DecksScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: 'deck-detail',
+                    builder: (context, state) =>
+                        DeckDetailScreen(deckId: state.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),

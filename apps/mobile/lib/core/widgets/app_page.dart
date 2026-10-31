@@ -12,12 +12,14 @@ class AppPage extends StatelessWidget {
     required this.child,
     this.subtitle,
     this.trailing,
+    this.leading,
     this.padding,
   });
 
   final String title;
   final String? subtitle;
   final Widget? trailing;
+  final Widget? leading;
   final Widget child;
   final EdgeInsetsGeometry? padding;
 
@@ -44,6 +46,10 @@ class AppPage extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: theme.space3),
+                ],
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

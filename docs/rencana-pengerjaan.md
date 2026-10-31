@@ -17,7 +17,7 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | Bootstrap Supabase + `AuthRepository` | ✅ selesai |
 | Skema Postgres + RLS (`apps/api/supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
 | `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
-| **UI aplikasi** | ❌ belum ada (masih layar kosong) |
+| **UI aplikasi** | 🟡 shell 4 tab + CRUD deck & kartu (Milestone 1.1–1.3) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |
 
 ## Prinsip yang tidak boleh dilanggar
@@ -66,6 +66,10 @@ test per komponen bervarasi penting.
 ditutup, dan tidak ada overflow di layar kecil.
 
 ### 1.3 Deck & kartu (KF-1, KF-2)
+
+**Status:** ✅ selesai — daftar deck, detail deck, sheet buat/ubah, tempel
+banyak kartu, dan soft delete sudah jalan. Pratinjau tampilan bisa lewat
+Flutter web (lihat README).
 
 | # | Tugas |
 | --- | --- |

@@ -10,6 +10,12 @@ final cardRepositoryProvider = Provider<CardRepository>(
   (ref) => CardRepository(ref.watch(appDatabaseProvider)),
 );
 
+/// Kartu aktif milik satu deck, urut waktu dibuat.
+final cardsByDeckProvider = StreamProvider.autoDispose
+    .family<List<CardRow>, String>(
+      (ref, deckId) => ref.watch(cardRepositoryProvider).watchByDeck(deckId),
+    );
+
 class CardRepository {
   CardRepository(this._db);
 
@@ -20,9 +26,7 @@ class CardRepository {
   Stream<List<CardRow>> watchDue({DateTime? at}) {
     final now = at ?? DateTime.now();
     final query = _db.select(_db.cards)
-      ..where(
-        (t) => t.deletedAt.isNull() & t.dueAt.isSmallerOrEqualValue(now),
-      )
+      ..where((t) => t.deletedAt.isNull() & t.dueAt.isSmallerOrEqualValue(now))
       ..orderBy([(t) => OrderingTerm.asc(t.dueAt)]);
     return query.watch();
   }
@@ -55,7 +59,9 @@ class CardRepository {
   }) async {
     final now = DateTime.now();
     final id = _uuid.v4();
-    await _db.into(_db.cards).insert(
+    await _db
+        .into(_db.cards)
+        .insert(
           CardsCompanion.insert(
             id: id,
             deckId: deckId,
@@ -67,6 +73,37 @@ class CardRepository {
           ),
         );
     return id;
+  }
+
+  /// Inserts many cards in one batch; used by the paste-many flow.
+  Future<int> createMany({
+    required String deckId,
+    required List<({String front, String back})> cards,
+    DateTime? dueAt,
+  }) async {
+    if (cards.isEmpty) return 0;
+
+    final now = DateTime.now();
+    final due = dueAt ?? now;
+
+    await _db.batch((batch) {
+      for (final card in cards) {
+        batch.insert(
+          _db.cards,
+          CardsCompanion.insert(
+            id: _uuid.v4(),
+            deckId: deckId,
+            front: card.front,
+            back: card.back,
+            dueAt: due,
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+      }
+    });
+
+    return cards.length;
   }
 
   Future<void> updateContent({
@@ -124,7 +161,9 @@ class CardRepository {
           dirty: const Value(true),
         ),
       );
-      await _db.into(_db.reviews).insert(
+      await _db
+          .into(_db.reviews)
+          .insert(
             ReviewsCompanion.insert(
               id: _uuid.v4(),
               cardId: card.id,

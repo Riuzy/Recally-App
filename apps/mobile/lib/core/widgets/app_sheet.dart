@@ -17,6 +17,7 @@ Future<T?> showAppSheet<T>({
 
   return showModalBottomSheet<T>(
     context: context,
+    useRootNavigator: true,
     isScrollControlled: true,
     isDismissible: isDismissible,
     backgroundColor: Colors.transparent,
