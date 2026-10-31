@@ -15,10 +15,7 @@ class AppShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   static const List<_TabSpec> _tabs = [
-    _TabSpec(
-      label: 'Hari Ini',
-      icon: PhosphorIconsRegular.calendarBlank,
-    ),
+    _TabSpec(label: 'Hari Ini', icon: PhosphorIconsRegular.calendarBlank),
     _TabSpec(label: 'Deck', icon: PhosphorIconsRegular.cards),
     _TabSpec(label: 'Progres', icon: PhosphorIconsRegular.chartLine),
     _TabSpec(label: 'Pengaturan', icon: PhosphorIconsRegular.gear),

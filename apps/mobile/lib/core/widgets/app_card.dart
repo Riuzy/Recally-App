@@ -7,12 +7,7 @@ import '../theme/app_theme_extension.dart';
 /// Dark memakai border 1px plus inner highlight tipis; light memakai border
 /// dan shadow sangat lembut. Jangan menumpuk kartu di dalam kartu.
 class AppCard extends StatelessWidget {
-  const AppCard({
-    super.key,
-    required this.child,
-    this.padding,
-    this.onTap,
-  });
+  const AppCard({super.key, required this.child, this.padding, this.onTap});
 
   final Widget child;
   final EdgeInsetsGeometry? padding;

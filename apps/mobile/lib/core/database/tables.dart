@@ -48,7 +48,8 @@ class Cards extends Table {
 @DataClassName('Review')
 class Reviews extends Table {
   TextColumn get id => text()();
-  TextColumn get cardId => text().references(Cards, #id, onDelete: KeyAction.cascade)();
+  TextColumn get cardId =>
+      text().references(Cards, #id, onDelete: KeyAction.cascade)();
 
   /// `0` = lupa, `1` = ragu, `2` = ingat.
   IntColumn get rating => integer()();

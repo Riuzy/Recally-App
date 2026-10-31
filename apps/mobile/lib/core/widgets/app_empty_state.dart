@@ -53,10 +53,7 @@ class AppEmptyState extends StatelessWidget {
                 style: AppTypography.body.copyWith(color: colors.muted),
               ),
             ],
-            if (action != null) ...[
-              SizedBox(height: theme.space6),
-              action!,
-            ],
+            if (action != null) ...[SizedBox(height: theme.space6), action!],
           ],
         ),
       ),

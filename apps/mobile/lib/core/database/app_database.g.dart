@@ -11,60 +11,102 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 120),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 120,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _deletedAtMeta =
-      const VerificationMeta('deletedAt');
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
-      'deleted_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _dirtyMeta = const VerificationMeta('dirty');
   @override
   late final GeneratedColumn<bool> dirty = GeneratedColumn<bool>(
-      'dirty', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("dirty" IN (0, 1))'),
-      defaultValue: const Constant(true));
+    'dirty',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("dirty" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, description, createdAt, updatedAt, deletedAt, dirty];
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    description,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    dirty,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'decks';
   @override
-  VerificationContext validateIntegrity(Insertable<Deck> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Deck> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -74,35 +116,48 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
           _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+        ),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
     if (data.containsKey('deleted_at')) {
-      context.handle(_deletedAtMeta,
-          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
     }
     if (data.containsKey('dirty')) {
       context.handle(
-          _dirtyMeta, dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta));
+        _dirtyMeta,
+        dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta),
+      );
     }
     return context;
   }
@@ -113,20 +168,34 @@ class $DecksTable extends Decks with TableInfo<$DecksTable, Deck> {
   Deck map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Deck(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
-      deletedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
-      dirty: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}dirty'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      dirty: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}dirty'],
+      )!,
     );
   }
 
@@ -146,14 +215,15 @@ class Deck extends DataClass implements Insertable<Deck> {
 
   /// True when the row has local changes that still need to be pushed to Supabase.
   final bool dirty;
-  const Deck(
-      {required this.id,
-      required this.name,
-      this.description,
-      required this.createdAt,
-      required this.updatedAt,
-      this.deletedAt,
-      required this.dirty});
+  const Deck({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.dirty,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -187,8 +257,10 @@ class Deck extends DataClass implements Insertable<Deck> {
     );
   }
 
-  factory Deck.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Deck.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Deck(
       id: serializer.fromJson<String>(json['id']),
@@ -214,29 +286,30 @@ class Deck extends DataClass implements Insertable<Deck> {
     };
   }
 
-  Deck copyWith(
-          {String? id,
-          String? name,
-          Value<String?> description = const Value.absent(),
-          DateTime? createdAt,
-          DateTime? updatedAt,
-          Value<DateTime?> deletedAt = const Value.absent(),
-          bool? dirty}) =>
-      Deck(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        description: description.present ? description.value : this.description,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-        dirty: dirty ?? this.dirty,
-      );
+  Deck copyWith({
+    String? id,
+    String? name,
+    Value<String?> description = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    bool? dirty,
+  }) => Deck(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description.present ? description.value : this.description,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    dirty: dirty ?? this.dirty,
+  );
   Deck copyWithCompanion(DecksCompanion data) {
     return Deck(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
-      description:
-          data.description.present ? data.description.value : this.description,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
@@ -260,7 +333,14 @@ class Deck extends DataClass implements Insertable<Deck> {
 
   @override
   int get hashCode => Object.hash(
-      id, name, description, createdAt, updatedAt, deletedAt, dirty);
+    id,
+    name,
+    description,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    dirty,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -302,10 +382,10 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     this.deletedAt = const Value.absent(),
     this.dirty = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        name = Value(name),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       name = Value(name),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
   static Insertable<Deck> custom({
     Expression<String>? id,
     Expression<String>? name,
@@ -328,15 +408,16 @@ class DecksCompanion extends UpdateCompanion<Deck> {
     });
   }
 
-  DecksCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? name,
-      Value<String?>? description,
-      Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt,
-      Value<DateTime?>? deletedAt,
-      Value<bool>? dirty,
-      Value<int>? rowid}) {
+  DecksCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String?>? description,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<bool>? dirty,
+    Value<int>? rowid,
+  }) {
     return DecksCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -403,111 +484,165 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _deckIdMeta = const VerificationMeta('deckId');
   @override
   late final GeneratedColumn<String> deckId = GeneratedColumn<String>(
-      'deck_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES decks (id) ON DELETE CASCADE'));
+    'deck_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES decks (id) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _frontMeta = const VerificationMeta('front');
   @override
   late final GeneratedColumn<String> front = GeneratedColumn<String>(
-      'front', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'front',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _backMeta = const VerificationMeta('back');
   @override
   late final GeneratedColumn<String> back = GeneratedColumn<String>(
-      'back', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'back',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _dueAtMeta = const VerificationMeta('dueAt');
   @override
   late final GeneratedColumn<DateTime> dueAt = GeneratedColumn<DateTime>(
-      'due_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _intervalDaysMeta =
-      const VerificationMeta('intervalDays');
+    'due_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _intervalDaysMeta = const VerificationMeta(
+    'intervalDays',
+  );
   @override
   late final GeneratedColumn<int> intervalDays = GeneratedColumn<int>(
-      'interval_days', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+    'interval_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   static const VerificationMeta _easeMeta = const VerificationMeta('ease');
   @override
   late final GeneratedColumn<double> ease = GeneratedColumn<double>(
-      'ease', aliasedName, false,
-      type: DriftSqlType.double,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(2.5));
+    'ease',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(2.5),
+  );
   static const VerificationMeta _repsMeta = const VerificationMeta('reps');
   @override
   late final GeneratedColumn<int> reps = GeneratedColumn<int>(
-      'reps', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+    'reps',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   static const VerificationMeta _lapsesMeta = const VerificationMeta('lapses');
   @override
   late final GeneratedColumn<int> lapses = GeneratedColumn<int>(
-      'lapses', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'lapses',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _deletedAtMeta =
-      const VerificationMeta('deletedAt');
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
-      'deleted_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _dirtyMeta = const VerificationMeta('dirty');
   @override
   late final GeneratedColumn<bool> dirty = GeneratedColumn<bool>(
-      'dirty', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("dirty" IN (0, 1))'),
-      defaultValue: const Constant(true));
+    'dirty',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("dirty" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        deckId,
-        front,
-        back,
-        dueAt,
-        intervalDays,
-        ease,
-        reps,
-        lapses,
-        createdAt,
-        updatedAt,
-        deletedAt,
-        dirty
-      ];
+    id,
+    deckId,
+    front,
+    back,
+    dueAt,
+    intervalDays,
+    ease,
+    reps,
+    lapses,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    dirty,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'cards';
   @override
-  VerificationContext validateIntegrity(Insertable<CardRow> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<CardRow> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -516,66 +651,91 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
       context.missing(_idMeta);
     }
     if (data.containsKey('deck_id')) {
-      context.handle(_deckIdMeta,
-          deckId.isAcceptableOrUnknown(data['deck_id']!, _deckIdMeta));
+      context.handle(
+        _deckIdMeta,
+        deckId.isAcceptableOrUnknown(data['deck_id']!, _deckIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_deckIdMeta);
     }
     if (data.containsKey('front')) {
       context.handle(
-          _frontMeta, front.isAcceptableOrUnknown(data['front']!, _frontMeta));
+        _frontMeta,
+        front.isAcceptableOrUnknown(data['front']!, _frontMeta),
+      );
     } else if (isInserting) {
       context.missing(_frontMeta);
     }
     if (data.containsKey('back')) {
       context.handle(
-          _backMeta, back.isAcceptableOrUnknown(data['back']!, _backMeta));
+        _backMeta,
+        back.isAcceptableOrUnknown(data['back']!, _backMeta),
+      );
     } else if (isInserting) {
       context.missing(_backMeta);
     }
     if (data.containsKey('due_at')) {
       context.handle(
-          _dueAtMeta, dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta));
+        _dueAtMeta,
+        dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_dueAtMeta);
     }
     if (data.containsKey('interval_days')) {
       context.handle(
+        _intervalDaysMeta,
+        intervalDays.isAcceptableOrUnknown(
+          data['interval_days']!,
           _intervalDaysMeta,
-          intervalDays.isAcceptableOrUnknown(
-              data['interval_days']!, _intervalDaysMeta));
+        ),
+      );
     }
     if (data.containsKey('ease')) {
       context.handle(
-          _easeMeta, ease.isAcceptableOrUnknown(data['ease']!, _easeMeta));
+        _easeMeta,
+        ease.isAcceptableOrUnknown(data['ease']!, _easeMeta),
+      );
     }
     if (data.containsKey('reps')) {
       context.handle(
-          _repsMeta, reps.isAcceptableOrUnknown(data['reps']!, _repsMeta));
+        _repsMeta,
+        reps.isAcceptableOrUnknown(data['reps']!, _repsMeta),
+      );
     }
     if (data.containsKey('lapses')) {
-      context.handle(_lapsesMeta,
-          lapses.isAcceptableOrUnknown(data['lapses']!, _lapsesMeta));
+      context.handle(
+        _lapsesMeta,
+        lapses.isAcceptableOrUnknown(data['lapses']!, _lapsesMeta),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
     if (data.containsKey('deleted_at')) {
-      context.handle(_deletedAtMeta,
-          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
     }
     if (data.containsKey('dirty')) {
       context.handle(
-          _dirtyMeta, dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta));
+        _dirtyMeta,
+        dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta),
+      );
     }
     return context;
   }
@@ -586,32 +746,58 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
   CardRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CardRow(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      deckId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}deck_id'])!,
-      front: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}front'])!,
-      back: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}back'])!,
-      dueAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}due_at'])!,
-      intervalDays: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}interval_days'])!,
-      ease: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}ease'])!,
-      reps: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}reps'])!,
-      lapses: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}lapses'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
-      deletedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
-      dirty: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}dirty'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      deckId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}deck_id'],
+      )!,
+      front: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}front'],
+      )!,
+      back: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}back'],
+      )!,
+      dueAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due_at'],
+      )!,
+      intervalDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}interval_days'],
+      )!,
+      ease: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}ease'],
+      )!,
+      reps: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reps'],
+      )!,
+      lapses: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}lapses'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      dirty: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}dirty'],
+      )!,
     );
   }
 
@@ -639,20 +825,21 @@ class CardRow extends DataClass implements Insertable<CardRow> {
   final DateTime updatedAt;
   final DateTime? deletedAt;
   final bool dirty;
-  const CardRow(
-      {required this.id,
-      required this.deckId,
-      required this.front,
-      required this.back,
-      required this.dueAt,
-      required this.intervalDays,
-      required this.ease,
-      required this.reps,
-      required this.lapses,
-      required this.createdAt,
-      required this.updatedAt,
-      this.deletedAt,
-      required this.dirty});
+  const CardRow({
+    required this.id,
+    required this.deckId,
+    required this.front,
+    required this.back,
+    required this.dueAt,
+    required this.intervalDays,
+    required this.ease,
+    required this.reps,
+    required this.lapses,
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.dirty,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -694,8 +881,10 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     );
   }
 
-  factory CardRow.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory CardRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CardRow(
       id: serializer.fromJson<String>(json['id']),
@@ -733,35 +922,35 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     };
   }
 
-  CardRow copyWith(
-          {String? id,
-          String? deckId,
-          String? front,
-          String? back,
-          DateTime? dueAt,
-          int? intervalDays,
-          double? ease,
-          int? reps,
-          int? lapses,
-          DateTime? createdAt,
-          DateTime? updatedAt,
-          Value<DateTime?> deletedAt = const Value.absent(),
-          bool? dirty}) =>
-      CardRow(
-        id: id ?? this.id,
-        deckId: deckId ?? this.deckId,
-        front: front ?? this.front,
-        back: back ?? this.back,
-        dueAt: dueAt ?? this.dueAt,
-        intervalDays: intervalDays ?? this.intervalDays,
-        ease: ease ?? this.ease,
-        reps: reps ?? this.reps,
-        lapses: lapses ?? this.lapses,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-        dirty: dirty ?? this.dirty,
-      );
+  CardRow copyWith({
+    String? id,
+    String? deckId,
+    String? front,
+    String? back,
+    DateTime? dueAt,
+    int? intervalDays,
+    double? ease,
+    int? reps,
+    int? lapses,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    bool? dirty,
+  }) => CardRow(
+    id: id ?? this.id,
+    deckId: deckId ?? this.deckId,
+    front: front ?? this.front,
+    back: back ?? this.back,
+    dueAt: dueAt ?? this.dueAt,
+    intervalDays: intervalDays ?? this.intervalDays,
+    ease: ease ?? this.ease,
+    reps: reps ?? this.reps,
+    lapses: lapses ?? this.lapses,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    dirty: dirty ?? this.dirty,
+  );
   CardRow copyWithCompanion(CardsCompanion data) {
     return CardRow(
       id: data.id.present ? data.id.value : this.id,
@@ -803,8 +992,21 @@ class CardRow extends DataClass implements Insertable<CardRow> {
   }
 
   @override
-  int get hashCode => Object.hash(id, deckId, front, back, dueAt, intervalDays,
-      ease, reps, lapses, createdAt, updatedAt, deletedAt, dirty);
+  int get hashCode => Object.hash(
+    id,
+    deckId,
+    front,
+    back,
+    dueAt,
+    intervalDays,
+    ease,
+    reps,
+    lapses,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    dirty,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -870,13 +1072,13 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     this.deletedAt = const Value.absent(),
     this.dirty = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        deckId = Value(deckId),
-        front = Value(front),
-        back = Value(back),
-        dueAt = Value(dueAt),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       deckId = Value(deckId),
+       front = Value(front),
+       back = Value(back),
+       dueAt = Value(dueAt),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
   static Insertable<CardRow> custom({
     Expression<String>? id,
     Expression<String>? deckId,
@@ -911,21 +1113,22 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     });
   }
 
-  CardsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? deckId,
-      Value<String>? front,
-      Value<String>? back,
-      Value<DateTime>? dueAt,
-      Value<int>? intervalDays,
-      Value<double>? ease,
-      Value<int>? reps,
-      Value<int>? lapses,
-      Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt,
-      Value<DateTime?>? deletedAt,
-      Value<bool>? dirty,
-      Value<int>? rowid}) {
+  CardsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? deckId,
+    Value<String>? front,
+    Value<String>? back,
+    Value<DateTime>? dueAt,
+    Value<int>? intervalDays,
+    Value<double>? ease,
+    Value<int>? reps,
+    Value<int>? lapses,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<bool>? dirty,
+    Value<int>? rowid,
+  }) {
     return CardsCompanion(
       id: id ?? this.id,
       deckId: deckId ?? this.deckId,
@@ -1022,66 +1225,99 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _cardIdMeta = const VerificationMeta('cardId');
   @override
   late final GeneratedColumn<String> cardId = GeneratedColumn<String>(
-      'card_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES cards (id) ON DELETE CASCADE'));
+    'card_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES cards (id) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
   @override
   late final GeneratedColumn<int> rating = GeneratedColumn<int>(
-      'rating', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _reviewedAtMeta =
-      const VerificationMeta('reviewedAt');
+    'rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reviewedAtMeta = const VerificationMeta(
+    'reviewedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> reviewedAt = GeneratedColumn<DateTime>(
-      'reviewed_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _prevIntervalDaysMeta =
-      const VerificationMeta('prevIntervalDays');
+    'reviewed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _prevIntervalDaysMeta = const VerificationMeta(
+    'prevIntervalDays',
+  );
   @override
   late final GeneratedColumn<int> prevIntervalDays = GeneratedColumn<int>(
-      'prev_interval_days', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _newIntervalDaysMeta =
-      const VerificationMeta('newIntervalDays');
+    'prev_interval_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _newIntervalDaysMeta = const VerificationMeta(
+    'newIntervalDays',
+  );
   @override
   late final GeneratedColumn<int> newIntervalDays = GeneratedColumn<int>(
-      'new_interval_days', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'new_interval_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _dirtyMeta = const VerificationMeta('dirty');
   @override
   late final GeneratedColumn<bool> dirty = GeneratedColumn<bool>(
-      'dirty', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("dirty" IN (0, 1))'),
-      defaultValue: const Constant(true));
+    'dirty',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("dirty" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        cardId,
-        rating,
-        reviewedAt,
-        prevIntervalDays,
-        newIntervalDays,
-        dirty
-      ];
+    id,
+    cardId,
+    rating,
+    reviewedAt,
+    prevIntervalDays,
+    newIntervalDays,
+    dirty,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'reviews';
   @override
-  VerificationContext validateIntegrity(Insertable<Review> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Review> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1090,44 +1326,56 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
       context.missing(_idMeta);
     }
     if (data.containsKey('card_id')) {
-      context.handle(_cardIdMeta,
-          cardId.isAcceptableOrUnknown(data['card_id']!, _cardIdMeta));
+      context.handle(
+        _cardIdMeta,
+        cardId.isAcceptableOrUnknown(data['card_id']!, _cardIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_cardIdMeta);
     }
     if (data.containsKey('rating')) {
-      context.handle(_ratingMeta,
-          rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
+      context.handle(
+        _ratingMeta,
+        rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
+      );
     } else if (isInserting) {
       context.missing(_ratingMeta);
     }
     if (data.containsKey('reviewed_at')) {
       context.handle(
-          _reviewedAtMeta,
-          reviewedAt.isAcceptableOrUnknown(
-              data['reviewed_at']!, _reviewedAtMeta));
+        _reviewedAtMeta,
+        reviewedAt.isAcceptableOrUnknown(data['reviewed_at']!, _reviewedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_reviewedAtMeta);
     }
     if (data.containsKey('prev_interval_days')) {
       context.handle(
+        _prevIntervalDaysMeta,
+        prevIntervalDays.isAcceptableOrUnknown(
+          data['prev_interval_days']!,
           _prevIntervalDaysMeta,
-          prevIntervalDays.isAcceptableOrUnknown(
-              data['prev_interval_days']!, _prevIntervalDaysMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_prevIntervalDaysMeta);
     }
     if (data.containsKey('new_interval_days')) {
       context.handle(
+        _newIntervalDaysMeta,
+        newIntervalDays.isAcceptableOrUnknown(
+          data['new_interval_days']!,
           _newIntervalDaysMeta,
-          newIntervalDays.isAcceptableOrUnknown(
-              data['new_interval_days']!, _newIntervalDaysMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_newIntervalDaysMeta);
     }
     if (data.containsKey('dirty')) {
       context.handle(
-          _dirtyMeta, dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta));
+        _dirtyMeta,
+        dirty.isAcceptableOrUnknown(data['dirty']!, _dirtyMeta),
+      );
     }
     return context;
   }
@@ -1138,20 +1386,34 @@ class $ReviewsTable extends Reviews with TableInfo<$ReviewsTable, Review> {
   Review map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Review(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      cardId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}card_id'])!,
-      rating: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}rating'])!,
-      reviewedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}reviewed_at'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      cardId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}card_id'],
+      )!,
+      rating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rating'],
+      )!,
+      reviewedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}reviewed_at'],
+      )!,
       prevIntervalDays: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}prev_interval_days'])!,
-      newIntervalDays: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}new_interval_days'])!,
-      dirty: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}dirty'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}prev_interval_days'],
+      )!,
+      newIntervalDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}new_interval_days'],
+      )!,
+      dirty: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}dirty'],
+      )!,
     );
   }
 
@@ -1171,14 +1433,15 @@ class Review extends DataClass implements Insertable<Review> {
   final int prevIntervalDays;
   final int newIntervalDays;
   final bool dirty;
-  const Review(
-      {required this.id,
-      required this.cardId,
-      required this.rating,
-      required this.reviewedAt,
-      required this.prevIntervalDays,
-      required this.newIntervalDays,
-      required this.dirty});
+  const Review({
+    required this.id,
+    required this.cardId,
+    required this.rating,
+    required this.reviewedAt,
+    required this.prevIntervalDays,
+    required this.newIntervalDays,
+    required this.dirty,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1204,8 +1467,10 @@ class Review extends DataClass implements Insertable<Review> {
     );
   }
 
-  factory Review.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Review.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Review(
       id: serializer.fromJson<String>(json['id']),
@@ -1231,30 +1496,31 @@ class Review extends DataClass implements Insertable<Review> {
     };
   }
 
-  Review copyWith(
-          {String? id,
-          String? cardId,
-          int? rating,
-          DateTime? reviewedAt,
-          int? prevIntervalDays,
-          int? newIntervalDays,
-          bool? dirty}) =>
-      Review(
-        id: id ?? this.id,
-        cardId: cardId ?? this.cardId,
-        rating: rating ?? this.rating,
-        reviewedAt: reviewedAt ?? this.reviewedAt,
-        prevIntervalDays: prevIntervalDays ?? this.prevIntervalDays,
-        newIntervalDays: newIntervalDays ?? this.newIntervalDays,
-        dirty: dirty ?? this.dirty,
-      );
+  Review copyWith({
+    String? id,
+    String? cardId,
+    int? rating,
+    DateTime? reviewedAt,
+    int? prevIntervalDays,
+    int? newIntervalDays,
+    bool? dirty,
+  }) => Review(
+    id: id ?? this.id,
+    cardId: cardId ?? this.cardId,
+    rating: rating ?? this.rating,
+    reviewedAt: reviewedAt ?? this.reviewedAt,
+    prevIntervalDays: prevIntervalDays ?? this.prevIntervalDays,
+    newIntervalDays: newIntervalDays ?? this.newIntervalDays,
+    dirty: dirty ?? this.dirty,
+  );
   Review copyWithCompanion(ReviewsCompanion data) {
     return Review(
       id: data.id.present ? data.id.value : this.id,
       cardId: data.cardId.present ? data.cardId.value : this.cardId,
       rating: data.rating.present ? data.rating.value : this.rating,
-      reviewedAt:
-          data.reviewedAt.present ? data.reviewedAt.value : this.reviewedAt,
+      reviewedAt: data.reviewedAt.present
+          ? data.reviewedAt.value
+          : this.reviewedAt,
       prevIntervalDays: data.prevIntervalDays.present
           ? data.prevIntervalDays.value
           : this.prevIntervalDays,
@@ -1281,7 +1547,14 @@ class Review extends DataClass implements Insertable<Review> {
 
   @override
   int get hashCode => Object.hash(
-      id, cardId, rating, reviewedAt, prevIntervalDays, newIntervalDays, dirty);
+    id,
+    cardId,
+    rating,
+    reviewedAt,
+    prevIntervalDays,
+    newIntervalDays,
+    dirty,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1323,12 +1596,12 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     required int newIntervalDays,
     this.dirty = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        cardId = Value(cardId),
-        rating = Value(rating),
-        reviewedAt = Value(reviewedAt),
-        prevIntervalDays = Value(prevIntervalDays),
-        newIntervalDays = Value(newIntervalDays);
+  }) : id = Value(id),
+       cardId = Value(cardId),
+       rating = Value(rating),
+       reviewedAt = Value(reviewedAt),
+       prevIntervalDays = Value(prevIntervalDays),
+       newIntervalDays = Value(newIntervalDays);
   static Insertable<Review> custom({
     Expression<String>? id,
     Expression<String>? cardId,
@@ -1351,15 +1624,16 @@ class ReviewsCompanion extends UpdateCompanion<Review> {
     });
   }
 
-  ReviewsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? cardId,
-      Value<int>? rating,
-      Value<DateTime>? reviewedAt,
-      Value<int>? prevIntervalDays,
-      Value<int>? newIntervalDays,
-      Value<bool>? dirty,
-      Value<int>? rowid}) {
+  ReviewsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? cardId,
+    Value<int>? rating,
+    Value<DateTime>? reviewedAt,
+    Value<int>? prevIntervalDays,
+    Value<int>? newIntervalDays,
+    Value<bool>? dirty,
+    Value<int>? rowid,
+  }) {
     return ReviewsCompanion(
       id: id ?? this.id,
       cardId: cardId ?? this.cardId,
@@ -1427,13 +1701,21 @@ class $SyncStatesTable extends SyncStates
   static const VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
   late final GeneratedColumn<String> key = GeneratedColumn<String>(
-      'key', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _valueMeta = const VerificationMeta('value');
   @override
   late final GeneratedColumn<String> value = GeneratedColumn<String>(
-      'value', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'value',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [key, value];
   @override
@@ -1442,19 +1724,25 @@ class $SyncStatesTable extends SyncStates
   String get actualTableName => $name;
   static const String $name = 'sync_states';
   @override
-  VerificationContext validateIntegrity(Insertable<SyncState> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<SyncState> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
       context.handle(
-          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+        _valueMeta,
+        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
+      );
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
@@ -1467,10 +1755,14 @@ class $SyncStatesTable extends SyncStates
   SyncState map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SyncState(
-      key: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
-      value: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value'],
+      )!,
     );
   }
 
@@ -1493,14 +1785,13 @@ class SyncState extends DataClass implements Insertable<SyncState> {
   }
 
   SyncStatesCompanion toCompanion(bool nullToAbsent) {
-    return SyncStatesCompanion(
-      key: Value(key),
-      value: Value(value),
-    );
+    return SyncStatesCompanion(key: Value(key), value: Value(value));
   }
 
-  factory SyncState.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory SyncState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SyncState(
       key: serializer.fromJson<String>(json['key']),
@@ -1516,10 +1807,8 @@ class SyncState extends DataClass implements Insertable<SyncState> {
     };
   }
 
-  SyncState copyWith({String? key, String? value}) => SyncState(
-        key: key ?? this.key,
-        value: value ?? this.value,
-      );
+  SyncState copyWith({String? key, String? value}) =>
+      SyncState(key: key ?? this.key, value: value ?? this.value);
   SyncState copyWithCompanion(SyncStatesCompanion data) {
     return SyncState(
       key: data.key.present ? data.key.value : this.key,
@@ -1559,8 +1848,8 @@ class SyncStatesCompanion extends UpdateCompanion<SyncState> {
     required String key,
     required String value,
     this.rowid = const Value.absent(),
-  })  : key = Value(key),
-        value = Value(value);
+  }) : key = Value(key),
+       value = Value(value);
   static Insertable<SyncState> custom({
     Expression<String>? key,
     Expression<String>? value,
@@ -1573,8 +1862,11 @@ class SyncStatesCompanion extends UpdateCompanion<SyncState> {
     });
   }
 
-  SyncStatesCompanion copyWith(
-      {Value<String>? key, Value<String>? value, Value<int>? rowid}) {
+  SyncStatesCompanion copyWith({
+    Value<String>? key,
+    Value<String>? value,
+    Value<int>? rowid,
+  }) {
     return SyncStatesCompanion(
       key: key ?? this.key,
       value: value ?? this.value,
@@ -1619,66 +1911,75 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [decks, cards, reviews, syncStates];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    decks,
+    cards,
+    reviews,
+    syncStates,
+  ];
   @override
-  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
-        [
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('decks',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('cards', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('cards',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('reviews', kind: UpdateKind.delete),
-            ],
-          ),
-        ],
-      );
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'decks',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('cards', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'cards',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('reviews', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
-typedef $$DecksTableCreateCompanionBuilder = DecksCompanion Function({
-  required String id,
-  required String name,
-  Value<String?> description,
-  required DateTime createdAt,
-  required DateTime updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
-typedef $$DecksTableUpdateCompanionBuilder = DecksCompanion Function({
-  Value<String> id,
-  Value<String> name,
-  Value<String?> description,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
+typedef $$DecksTableCreateCompanionBuilder =
+    DecksCompanion Function({
+      required String id,
+      required String name,
+      Value<String?> description,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
+typedef $$DecksTableUpdateCompanionBuilder =
+    DecksCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<String?> description,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
 
 final class $$DecksTableReferences
     extends BaseReferences<_$AppDatabase, $DecksTable, Deck> {
   $$DecksTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$CardsTable, List<CardRow>> _cardsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.cards,
-          aliasName: $_aliasNameGenerator(db.decks.id, db.cards.deckId));
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.cards,
+    aliasName: $_aliasNameGenerator(db.decks.id, db.cards.deckId),
+  );
 
   $$CardsTableProcessedTableManager get cardsRefs {
-    final manager = $$CardsTableTableManager($_db, $_db.cards)
-        .filter((f) => f.deckId.id($_item.id));
+    final manager = $$CardsTableTableManager(
+      $_db,
+      $_db.cards,
+    ).filter((f) => f.deckId.id($_item.id));
 
     final cache = $_typedResult.readTableOrNull(_cardsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -1691,44 +1992,62 @@ class $$DecksTableFilterComposer extends Composer<_$AppDatabase, $DecksTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnFilters(column));
+    column: $table.dirty,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> cardsRefs(
-      Expression<bool> Function($$CardsTableFilterComposer f) f) {
+    Expression<bool> Function($$CardsTableFilterComposer f) f,
+  ) {
     final $$CardsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.deckId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableFilterComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.deckId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableFilterComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -1743,25 +2062,39 @@ class $$DecksTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnOrderings(column));
+    column: $table.dirty,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DecksTableAnnotationComposer
@@ -1780,7 +2113,9 @@ class $$DecksTableAnnotationComposer
       $composableBuilder(column: $table.name, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+    column: $table.description,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -1795,41 +2130,49 @@ class $$DecksTableAnnotationComposer
       $composableBuilder(column: $table.dirty, builder: (column) => column);
 
   Expression<T> cardsRefs<T extends Object>(
-      Expression<T> Function($$CardsTableAnnotationComposer a) f) {
+    Expression<T> Function($$CardsTableAnnotationComposer a) f,
+  ) {
     final $$CardsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.deckId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.deckId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$DecksTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $DecksTable,
-    Deck,
-    $$DecksTableFilterComposer,
-    $$DecksTableOrderingComposer,
-    $$DecksTableAnnotationComposer,
-    $$DecksTableCreateCompanionBuilder,
-    $$DecksTableUpdateCompanionBuilder,
-    (Deck, $$DecksTableReferences),
-    Deck,
-    PrefetchHooks Function({bool cardsRefs})> {
+class $$DecksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DecksTable,
+          Deck,
+          $$DecksTableFilterComposer,
+          $$DecksTableOrderingComposer,
+          $$DecksTableAnnotationComposer,
+          $$DecksTableCreateCompanionBuilder,
+          $$DecksTableUpdateCompanionBuilder,
+          (Deck, $$DecksTableReferences),
+          Deck,
+          PrefetchHooks Function({bool cardsRefs})
+        > {
   $$DecksTableTableManager(_$AppDatabase db, $DecksTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1838,49 +2181,51 @@ class $$DecksTableTableManager extends RootTableManager<
               $$DecksTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$DecksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DecksCompanion(
-            id: id,
-            name: name,
-            description: description,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            dirty: dirty,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String name,
-            Value<String?> description = const Value.absent(),
-            required DateTime createdAt,
-            required DateTime updatedAt,
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DecksCompanion.insert(
-            id: id,
-            name: name,
-            description: description,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            dirty: dirty,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DecksCompanion(
+                id: id,
+                name: name,
+                description: description,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                dirty: dirty,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                Value<String?> description = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DecksCompanion.insert(
+                id: id,
+                name: name,
+                description: description,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                dirty: dirty,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$DecksTableReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$DecksTableReferences(db, table, e)),
+              )
               .toList(),
           prefetchHooksCallback: ({cardsRefs = false}) {
             return PrefetchHooks(
@@ -1891,66 +2236,72 @@ class $$DecksTableTableManager extends RootTableManager<
                 return [
                   if (cardsRefs)
                     await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$DecksTableReferences._cardsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$DecksTableReferences(db, table, p0).cardsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.deckId == item.id),
-                        typedResults: items)
+                      currentTable: table,
+                      referencedTable: $$DecksTableReferences._cardsRefsTable(
+                        db,
+                      ),
+                      managerFromTypedResult: (p0) =>
+                          $$DecksTableReferences(db, table, p0).cardsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.deckId == item.id),
+                      typedResults: items,
+                    ),
                 ];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$DecksTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $DecksTable,
-    Deck,
-    $$DecksTableFilterComposer,
-    $$DecksTableOrderingComposer,
-    $$DecksTableAnnotationComposer,
-    $$DecksTableCreateCompanionBuilder,
-    $$DecksTableUpdateCompanionBuilder,
-    (Deck, $$DecksTableReferences),
-    Deck,
-    PrefetchHooks Function({bool cardsRefs})>;
-typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
-  required String id,
-  required String deckId,
-  required String front,
-  required String back,
-  required DateTime dueAt,
-  Value<int> intervalDays,
-  Value<double> ease,
-  Value<int> reps,
-  Value<int> lapses,
-  required DateTime createdAt,
-  required DateTime updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
-typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
-  Value<String> id,
-  Value<String> deckId,
-  Value<String> front,
-  Value<String> back,
-  Value<DateTime> dueAt,
-  Value<int> intervalDays,
-  Value<double> ease,
-  Value<int> reps,
-  Value<int> lapses,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
+typedef $$DecksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DecksTable,
+      Deck,
+      $$DecksTableFilterComposer,
+      $$DecksTableOrderingComposer,
+      $$DecksTableAnnotationComposer,
+      $$DecksTableCreateCompanionBuilder,
+      $$DecksTableUpdateCompanionBuilder,
+      (Deck, $$DecksTableReferences),
+      Deck,
+      PrefetchHooks Function({bool cardsRefs})
+    >;
+typedef $$CardsTableCreateCompanionBuilder =
+    CardsCompanion Function({
+      required String id,
+      required String deckId,
+      required String front,
+      required String back,
+      required DateTime dueAt,
+      Value<int> intervalDays,
+      Value<double> ease,
+      Value<int> reps,
+      Value<int> lapses,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
+typedef $$CardsTableUpdateCompanionBuilder =
+    CardsCompanion Function({
+      Value<String> id,
+      Value<String> deckId,
+      Value<String> front,
+      Value<String> back,
+      Value<DateTime> dueAt,
+      Value<int> intervalDays,
+      Value<double> ease,
+      Value<int> reps,
+      Value<int> lapses,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
 
 final class $$CardsTableReferences
     extends BaseReferences<_$AppDatabase, $CardsTable, CardRow> {
@@ -1961,26 +2312,34 @@ final class $$CardsTableReferences
 
   $$DecksTableProcessedTableManager? get deckId {
     if ($_item.deckId == null) return null;
-    final manager = $$DecksTableTableManager($_db, $_db.decks)
-        .filter((f) => f.id($_item.deckId!));
+    final manager = $$DecksTableTableManager(
+      $_db,
+      $_db.decks,
+    ).filter((f) => f.id($_item.deckId!));
     final item = $_typedResult.readTableOrNull(_deckIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
   static MultiTypedResultKey<$ReviewsTable, List<Review>> _reviewsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.reviews,
-          aliasName: $_aliasNameGenerator(db.cards.id, db.reviews.cardId));
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.reviews,
+    aliasName: $_aliasNameGenerator(db.cards.id, db.reviews.cardId),
+  );
 
   $$ReviewsTableProcessedTableManager get reviewsRefs {
-    final manager = $$ReviewsTableTableManager($_db, $_db.reviews)
-        .filter((f) => f.cardId.id($_item.id));
+    final manager = $$ReviewsTableTableManager(
+      $_db,
+      $_db.reviews,
+    ).filter((f) => f.cardId.id($_item.id));
 
     final cache = $_typedResult.readTableOrNull(_reviewsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -1993,79 +2352,110 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get front => $composableBuilder(
-      column: $table.front, builder: (column) => ColumnFilters(column));
+    column: $table.front,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get back => $composableBuilder(
-      column: $table.back, builder: (column) => ColumnFilters(column));
+    column: $table.back,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get dueAt => $composableBuilder(
-      column: $table.dueAt, builder: (column) => ColumnFilters(column));
+    column: $table.dueAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get intervalDays => $composableBuilder(
-      column: $table.intervalDays, builder: (column) => ColumnFilters(column));
+    column: $table.intervalDays,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get ease => $composableBuilder(
-      column: $table.ease, builder: (column) => ColumnFilters(column));
+    column: $table.ease,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get reps => $composableBuilder(
-      column: $table.reps, builder: (column) => ColumnFilters(column));
+    column: $table.reps,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get lapses => $composableBuilder(
-      column: $table.lapses, builder: (column) => ColumnFilters(column));
+    column: $table.lapses,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnFilters(column));
+    column: $table.dirty,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$DecksTableFilterComposer get deckId {
     final $$DecksTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.deckId,
-        referencedTable: $db.decks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DecksTableFilterComposer(
-              $db: $db,
-              $table: $db.decks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.deckId,
+      referencedTable: $db.decks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DecksTableFilterComposer(
+            $db: $db,
+            $table: $db.decks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   Expression<bool> reviewsRefs(
-      Expression<bool> Function($$ReviewsTableFilterComposer f) f) {
+    Expression<bool> Function($$ReviewsTableFilterComposer f) f,
+  ) {
     final $$ReviewsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.reviews,
-        getReferencedColumn: (t) => t.cardId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ReviewsTableFilterComposer(
-              $db: $db,
-              $table: $db.reviews,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reviews,
+      getReferencedColumn: (t) => t.cardId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewsTableFilterComposer(
+            $db: $db,
+            $table: $db.reviews,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -2080,59 +2470,85 @@ class $$CardsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get front => $composableBuilder(
-      column: $table.front, builder: (column) => ColumnOrderings(column));
+    column: $table.front,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get back => $composableBuilder(
-      column: $table.back, builder: (column) => ColumnOrderings(column));
+    column: $table.back,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get dueAt => $composableBuilder(
-      column: $table.dueAt, builder: (column) => ColumnOrderings(column));
+    column: $table.dueAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get intervalDays => $composableBuilder(
-      column: $table.intervalDays,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.intervalDays,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get ease => $composableBuilder(
-      column: $table.ease, builder: (column) => ColumnOrderings(column));
+    column: $table.ease,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get reps => $composableBuilder(
-      column: $table.reps, builder: (column) => ColumnOrderings(column));
+    column: $table.reps,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get lapses => $composableBuilder(
-      column: $table.lapses, builder: (column) => ColumnOrderings(column));
+    column: $table.lapses,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnOrderings(column));
+    column: $table.dirty,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$DecksTableOrderingComposer get deckId {
     final $$DecksTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.deckId,
-        referencedTable: $db.decks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DecksTableOrderingComposer(
-              $db: $db,
-              $table: $db.decks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.deckId,
+      referencedTable: $db.decks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DecksTableOrderingComposer(
+            $db: $db,
+            $table: $db.decks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2159,7 +2575,9 @@ class $$CardsTableAnnotationComposer
       $composableBuilder(column: $table.dueAt, builder: (column) => column);
 
   GeneratedColumn<int> get intervalDays => $composableBuilder(
-      column: $table.intervalDays, builder: (column) => column);
+    column: $table.intervalDays,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get ease =>
       $composableBuilder(column: $table.ease, builder: (column) => column);
@@ -2184,60 +2602,71 @@ class $$CardsTableAnnotationComposer
 
   $$DecksTableAnnotationComposer get deckId {
     final $$DecksTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.deckId,
-        referencedTable: $db.decks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DecksTableAnnotationComposer(
-              $db: $db,
-              $table: $db.decks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.deckId,
+      referencedTable: $db.decks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DecksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.decks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   Expression<T> reviewsRefs<T extends Object>(
-      Expression<T> Function($$ReviewsTableAnnotationComposer a) f) {
+    Expression<T> Function($$ReviewsTableAnnotationComposer a) f,
+  ) {
     final $$ReviewsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.reviews,
-        getReferencedColumn: (t) => t.cardId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ReviewsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.reviews,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reviews,
+      getReferencedColumn: (t) => t.cardId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.reviews,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$CardsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $CardsTable,
-    CardRow,
-    $$CardsTableFilterComposer,
-    $$CardsTableOrderingComposer,
-    $$CardsTableAnnotationComposer,
-    $$CardsTableCreateCompanionBuilder,
-    $$CardsTableUpdateCompanionBuilder,
-    (CardRow, $$CardsTableReferences),
-    CardRow,
-    PrefetchHooks Function({bool deckId, bool reviewsRefs})> {
+class $$CardsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CardsTable,
+          CardRow,
+          $$CardsTableFilterComposer,
+          $$CardsTableOrderingComposer,
+          $$CardsTableAnnotationComposer,
+          $$CardsTableCreateCompanionBuilder,
+          $$CardsTableUpdateCompanionBuilder,
+          (CardRow, $$CardsTableReferences),
+          CardRow,
+          PrefetchHooks Function({bool deckId, bool reviewsRefs})
+        > {
   $$CardsTableTableManager(_$AppDatabase db, $CardsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2246,80 +2675,83 @@ class $$CardsTableTableManager extends RootTableManager<
               $$CardsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CardsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> deckId = const Value.absent(),
-            Value<String> front = const Value.absent(),
-            Value<String> back = const Value.absent(),
-            Value<DateTime> dueAt = const Value.absent(),
-            Value<int> intervalDays = const Value.absent(),
-            Value<double> ease = const Value.absent(),
-            Value<int> reps = const Value.absent(),
-            Value<int> lapses = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CardsCompanion(
-            id: id,
-            deckId: deckId,
-            front: front,
-            back: back,
-            dueAt: dueAt,
-            intervalDays: intervalDays,
-            ease: ease,
-            reps: reps,
-            lapses: lapses,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            dirty: dirty,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String deckId,
-            required String front,
-            required String back,
-            required DateTime dueAt,
-            Value<int> intervalDays = const Value.absent(),
-            Value<double> ease = const Value.absent(),
-            Value<int> reps = const Value.absent(),
-            Value<int> lapses = const Value.absent(),
-            required DateTime createdAt,
-            required DateTime updatedAt,
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CardsCompanion.insert(
-            id: id,
-            deckId: deckId,
-            front: front,
-            back: back,
-            dueAt: dueAt,
-            intervalDays: intervalDays,
-            ease: ease,
-            reps: reps,
-            lapses: lapses,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            dirty: dirty,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> deckId = const Value.absent(),
+                Value<String> front = const Value.absent(),
+                Value<String> back = const Value.absent(),
+                Value<DateTime> dueAt = const Value.absent(),
+                Value<int> intervalDays = const Value.absent(),
+                Value<double> ease = const Value.absent(),
+                Value<int> reps = const Value.absent(),
+                Value<int> lapses = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CardsCompanion(
+                id: id,
+                deckId: deckId,
+                front: front,
+                back: back,
+                dueAt: dueAt,
+                intervalDays: intervalDays,
+                ease: ease,
+                reps: reps,
+                lapses: lapses,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                dirty: dirty,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String deckId,
+                required String front,
+                required String back,
+                required DateTime dueAt,
+                Value<int> intervalDays = const Value.absent(),
+                Value<double> ease = const Value.absent(),
+                Value<int> reps = const Value.absent(),
+                Value<int> lapses = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CardsCompanion.insert(
+                id: id,
+                deckId: deckId,
+                front: front,
+                back: back,
+                dueAt: dueAt,
+                intervalDays: intervalDays,
+                ease: ease,
+                reps: reps,
+                lapses: lapses,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                dirty: dirty,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$CardsTableReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$CardsTableReferences(db, table, e)),
+              )
               .toList(),
           prefetchHooksCallback: ({deckId = false, reviewsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [if (reviewsRefs) db.reviews],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -2330,87 +2762,103 @@ class $$CardsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (deckId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.deckId,
-                    referencedTable: $$CardsTableReferences._deckIdTable(db),
-                    referencedColumn:
-                        $$CardsTableReferences._deckIdTable(db).id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (deckId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.deckId,
+                                referencedTable: $$CardsTableReferences
+                                    ._deckIdTable(db),
+                                referencedColumn: $$CardsTableReferences
+                                    ._deckIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (reviewsRefs)
                     await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$CardsTableReferences._reviewsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$CardsTableReferences(db, table, p0).reviewsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.cardId == item.id),
-                        typedResults: items)
+                      currentTable: table,
+                      referencedTable: $$CardsTableReferences._reviewsRefsTable(
+                        db,
+                      ),
+                      managerFromTypedResult: (p0) =>
+                          $$CardsTableReferences(db, table, p0).reviewsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.cardId == item.id),
+                      typedResults: items,
+                    ),
                 ];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$CardsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $CardsTable,
-    CardRow,
-    $$CardsTableFilterComposer,
-    $$CardsTableOrderingComposer,
-    $$CardsTableAnnotationComposer,
-    $$CardsTableCreateCompanionBuilder,
-    $$CardsTableUpdateCompanionBuilder,
-    (CardRow, $$CardsTableReferences),
-    CardRow,
-    PrefetchHooks Function({bool deckId, bool reviewsRefs})>;
-typedef $$ReviewsTableCreateCompanionBuilder = ReviewsCompanion Function({
-  required String id,
-  required String cardId,
-  required int rating,
-  required DateTime reviewedAt,
-  required int prevIntervalDays,
-  required int newIntervalDays,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
-typedef $$ReviewsTableUpdateCompanionBuilder = ReviewsCompanion Function({
-  Value<String> id,
-  Value<String> cardId,
-  Value<int> rating,
-  Value<DateTime> reviewedAt,
-  Value<int> prevIntervalDays,
-  Value<int> newIntervalDays,
-  Value<bool> dirty,
-  Value<int> rowid,
-});
+typedef $$CardsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CardsTable,
+      CardRow,
+      $$CardsTableFilterComposer,
+      $$CardsTableOrderingComposer,
+      $$CardsTableAnnotationComposer,
+      $$CardsTableCreateCompanionBuilder,
+      $$CardsTableUpdateCompanionBuilder,
+      (CardRow, $$CardsTableReferences),
+      CardRow,
+      PrefetchHooks Function({bool deckId, bool reviewsRefs})
+    >;
+typedef $$ReviewsTableCreateCompanionBuilder =
+    ReviewsCompanion Function({
+      required String id,
+      required String cardId,
+      required int rating,
+      required DateTime reviewedAt,
+      required int prevIntervalDays,
+      required int newIntervalDays,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
+typedef $$ReviewsTableUpdateCompanionBuilder =
+    ReviewsCompanion Function({
+      Value<String> id,
+      Value<String> cardId,
+      Value<int> rating,
+      Value<DateTime> reviewedAt,
+      Value<int> prevIntervalDays,
+      Value<int> newIntervalDays,
+      Value<bool> dirty,
+      Value<int> rowid,
+    });
 
 final class $$ReviewsTableReferences
     extends BaseReferences<_$AppDatabase, $ReviewsTable, Review> {
   $$ReviewsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $CardsTable _cardIdTable(_$AppDatabase db) => db.cards
-      .createAlias($_aliasNameGenerator(db.reviews.cardId, db.cards.id));
+  static $CardsTable _cardIdTable(_$AppDatabase db) => db.cards.createAlias(
+    $_aliasNameGenerator(db.reviews.cardId, db.cards.id),
+  );
 
   $$CardsTableProcessedTableManager? get cardId {
     if ($_item.cardId == null) return null;
-    final manager = $$CardsTableTableManager($_db, $_db.cards)
-        .filter((f) => f.id($_item.cardId!));
+    final manager = $$CardsTableTableManager(
+      $_db,
+      $_db.cards,
+    ).filter((f) => f.id($_item.cardId!));
     final item = $_typedResult.readTableOrNull(_cardIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -2424,42 +2872,55 @@ class $$ReviewsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get rating => $composableBuilder(
-      column: $table.rating, builder: (column) => ColumnFilters(column));
+    column: $table.rating,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get reviewedAt => $composableBuilder(
-      column: $table.reviewedAt, builder: (column) => ColumnFilters(column));
+    column: $table.reviewedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get prevIntervalDays => $composableBuilder(
-      column: $table.prevIntervalDays,
-      builder: (column) => ColumnFilters(column));
+    column: $table.prevIntervalDays,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get newIntervalDays => $composableBuilder(
-      column: $table.newIntervalDays,
-      builder: (column) => ColumnFilters(column));
+    column: $table.newIntervalDays,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnFilters(column));
+    column: $table.dirty,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$CardsTableFilterComposer get cardId {
     final $$CardsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.cardId,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableFilterComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.cardId,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableFilterComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2474,42 +2935,55 @@ class $$ReviewsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get rating => $composableBuilder(
-      column: $table.rating, builder: (column) => ColumnOrderings(column));
+    column: $table.rating,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get reviewedAt => $composableBuilder(
-      column: $table.reviewedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.reviewedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get prevIntervalDays => $composableBuilder(
-      column: $table.prevIntervalDays,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.prevIntervalDays,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get newIntervalDays => $composableBuilder(
-      column: $table.newIntervalDays,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.newIntervalDays,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get dirty => $composableBuilder(
-      column: $table.dirty, builder: (column) => ColumnOrderings(column));
+    column: $table.dirty,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$CardsTableOrderingComposer get cardId {
     final $$CardsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.cardId,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableOrderingComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.cardId,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableOrderingComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2530,52 +3004,65 @@ class $$ReviewsTableAnnotationComposer
       $composableBuilder(column: $table.rating, builder: (column) => column);
 
   GeneratedColumn<DateTime> get reviewedAt => $composableBuilder(
-      column: $table.reviewedAt, builder: (column) => column);
+    column: $table.reviewedAt,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get prevIntervalDays => $composableBuilder(
-      column: $table.prevIntervalDays, builder: (column) => column);
+    column: $table.prevIntervalDays,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get newIntervalDays => $composableBuilder(
-      column: $table.newIntervalDays, builder: (column) => column);
+    column: $table.newIntervalDays,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get dirty =>
       $composableBuilder(column: $table.dirty, builder: (column) => column);
 
   $$CardsTableAnnotationComposer get cardId {
     final $$CardsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.cardId,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.cardId,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$ReviewsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $ReviewsTable,
-    Review,
-    $$ReviewsTableFilterComposer,
-    $$ReviewsTableOrderingComposer,
-    $$ReviewsTableAnnotationComposer,
-    $$ReviewsTableCreateCompanionBuilder,
-    $$ReviewsTableUpdateCompanionBuilder,
-    (Review, $$ReviewsTableReferences),
-    Review,
-    PrefetchHooks Function({bool cardId})> {
+class $$ReviewsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReviewsTable,
+          Review,
+          $$ReviewsTableFilterComposer,
+          $$ReviewsTableOrderingComposer,
+          $$ReviewsTableAnnotationComposer,
+          $$ReviewsTableCreateCompanionBuilder,
+          $$ReviewsTableUpdateCompanionBuilder,
+          (Review, $$ReviewsTableReferences),
+          Review,
+          PrefetchHooks Function({bool cardId})
+        > {
   $$ReviewsTableTableManager(_$AppDatabase db, $ReviewsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2584,56 +3071,61 @@ class $$ReviewsTableTableManager extends RootTableManager<
               $$ReviewsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$ReviewsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> cardId = const Value.absent(),
-            Value<int> rating = const Value.absent(),
-            Value<DateTime> reviewedAt = const Value.absent(),
-            Value<int> prevIntervalDays = const Value.absent(),
-            Value<int> newIntervalDays = const Value.absent(),
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ReviewsCompanion(
-            id: id,
-            cardId: cardId,
-            rating: rating,
-            reviewedAt: reviewedAt,
-            prevIntervalDays: prevIntervalDays,
-            newIntervalDays: newIntervalDays,
-            dirty: dirty,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String cardId,
-            required int rating,
-            required DateTime reviewedAt,
-            required int prevIntervalDays,
-            required int newIntervalDays,
-            Value<bool> dirty = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ReviewsCompanion.insert(
-            id: id,
-            cardId: cardId,
-            rating: rating,
-            reviewedAt: reviewedAt,
-            prevIntervalDays: prevIntervalDays,
-            newIntervalDays: newIntervalDays,
-            dirty: dirty,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> cardId = const Value.absent(),
+                Value<int> rating = const Value.absent(),
+                Value<DateTime> reviewedAt = const Value.absent(),
+                Value<int> prevIntervalDays = const Value.absent(),
+                Value<int> newIntervalDays = const Value.absent(),
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewsCompanion(
+                id: id,
+                cardId: cardId,
+                rating: rating,
+                reviewedAt: reviewedAt,
+                prevIntervalDays: prevIntervalDays,
+                newIntervalDays: newIntervalDays,
+                dirty: dirty,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String cardId,
+                required int rating,
+                required DateTime reviewedAt,
+                required int prevIntervalDays,
+                required int newIntervalDays,
+                Value<bool> dirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewsCompanion.insert(
+                id: id,
+                cardId: cardId,
+                rating: rating,
+                reviewedAt: reviewedAt,
+                prevIntervalDays: prevIntervalDays,
+                newIntervalDays: newIntervalDays,
+                dirty: dirty,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$ReviewsTableReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ReviewsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({cardId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -2644,49 +3136,60 @@ class $$ReviewsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (cardId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.cardId,
-                    referencedTable: $$ReviewsTableReferences._cardIdTable(db),
-                    referencedColumn:
-                        $$ReviewsTableReferences._cardIdTable(db).id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (cardId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.cardId,
+                                referencedTable: $$ReviewsTableReferences
+                                    ._cardIdTable(db),
+                                referencedColumn: $$ReviewsTableReferences
+                                    ._cardIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$ReviewsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $ReviewsTable,
-    Review,
-    $$ReviewsTableFilterComposer,
-    $$ReviewsTableOrderingComposer,
-    $$ReviewsTableAnnotationComposer,
-    $$ReviewsTableCreateCompanionBuilder,
-    $$ReviewsTableUpdateCompanionBuilder,
-    (Review, $$ReviewsTableReferences),
-    Review,
-    PrefetchHooks Function({bool cardId})>;
-typedef $$SyncStatesTableCreateCompanionBuilder = SyncStatesCompanion Function({
-  required String key,
-  required String value,
-  Value<int> rowid,
-});
-typedef $$SyncStatesTableUpdateCompanionBuilder = SyncStatesCompanion Function({
-  Value<String> key,
-  Value<String> value,
-  Value<int> rowid,
-});
+typedef $$ReviewsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReviewsTable,
+      Review,
+      $$ReviewsTableFilterComposer,
+      $$ReviewsTableOrderingComposer,
+      $$ReviewsTableAnnotationComposer,
+      $$ReviewsTableCreateCompanionBuilder,
+      $$ReviewsTableUpdateCompanionBuilder,
+      (Review, $$ReviewsTableReferences),
+      Review,
+      PrefetchHooks Function({bool cardId})
+    >;
+typedef $$SyncStatesTableCreateCompanionBuilder =
+    SyncStatesCompanion Function({
+      required String key,
+      required String value,
+      Value<int> rowid,
+    });
+typedef $$SyncStatesTableUpdateCompanionBuilder =
+    SyncStatesCompanion Function({
+      Value<String> key,
+      Value<String> value,
+      Value<int> rowid,
+    });
 
 class $$SyncStatesTableFilterComposer
     extends Composer<_$AppDatabase, $SyncStatesTable> {
@@ -2698,10 +3201,14 @@ class $$SyncStatesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get key => $composableBuilder(
-      column: $table.key, builder: (column) => ColumnFilters(column));
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get value => $composableBuilder(
-      column: $table.value, builder: (column) => ColumnFilters(column));
+    column: $table.value,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SyncStatesTableOrderingComposer
@@ -2714,10 +3221,14 @@ class $$SyncStatesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get key => $composableBuilder(
-      column: $table.key, builder: (column) => ColumnOrderings(column));
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get value => $composableBuilder(
-      column: $table.value, builder: (column) => ColumnOrderings(column));
+    column: $table.value,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SyncStatesTableAnnotationComposer
@@ -2736,20 +3247,27 @@ class $$SyncStatesTableAnnotationComposer
       $composableBuilder(column: $table.value, builder: (column) => column);
 }
 
-class $$SyncStatesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $SyncStatesTable,
-    SyncState,
-    $$SyncStatesTableFilterComposer,
-    $$SyncStatesTableOrderingComposer,
-    $$SyncStatesTableAnnotationComposer,
-    $$SyncStatesTableCreateCompanionBuilder,
-    $$SyncStatesTableUpdateCompanionBuilder,
-    (SyncState, BaseReferences<_$AppDatabase, $SyncStatesTable, SyncState>),
-    SyncState,
-    PrefetchHooks Function()> {
+class $$SyncStatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SyncStatesTable,
+          SyncState,
+          $$SyncStatesTableFilterComposer,
+          $$SyncStatesTableOrderingComposer,
+          $$SyncStatesTableAnnotationComposer,
+          $$SyncStatesTableCreateCompanionBuilder,
+          $$SyncStatesTableUpdateCompanionBuilder,
+          (
+            SyncState,
+            BaseReferences<_$AppDatabase, $SyncStatesTable, SyncState>,
+          ),
+          SyncState,
+          PrefetchHooks Function()
+        > {
   $$SyncStatesTableTableManager(_$AppDatabase db, $SyncStatesTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2758,45 +3276,44 @@ class $$SyncStatesTableTableManager extends RootTableManager<
               $$SyncStatesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$SyncStatesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> key = const Value.absent(),
-            Value<String> value = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SyncStatesCompanion(
-            key: key,
-            value: value,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String key,
-            required String value,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SyncStatesCompanion.insert(
-            key: key,
-            value: value,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> key = const Value.absent(),
+                Value<String> value = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SyncStatesCompanion(key: key, value: value, rowid: rowid),
+          createCompanionCallback:
+              ({
+                required String key,
+                required String value,
+                Value<int> rowid = const Value.absent(),
+              }) => SyncStatesCompanion.insert(
+                key: key,
+                value: value,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$SyncStatesTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $SyncStatesTable,
-    SyncState,
-    $$SyncStatesTableFilterComposer,
-    $$SyncStatesTableOrderingComposer,
-    $$SyncStatesTableAnnotationComposer,
-    $$SyncStatesTableCreateCompanionBuilder,
-    $$SyncStatesTableUpdateCompanionBuilder,
-    (SyncState, BaseReferences<_$AppDatabase, $SyncStatesTable, SyncState>),
-    SyncState,
-    PrefetchHooks Function()>;
+typedef $$SyncStatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SyncStatesTable,
+      SyncState,
+      $$SyncStatesTableFilterComposer,
+      $$SyncStatesTableOrderingComposer,
+      $$SyncStatesTableAnnotationComposer,
+      $$SyncStatesTableCreateCompanionBuilder,
+      $$SyncStatesTableUpdateCompanionBuilder,
+      (SyncState, BaseReferences<_$AppDatabase, $SyncStatesTable, SyncState>),
+      SyncState,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

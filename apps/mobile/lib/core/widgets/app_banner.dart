@@ -28,33 +28,37 @@ class AppBanner extends StatelessWidget {
     final theme = context.appTheme;
     final colors = theme.colors;
 
-    final (Color background, Color border, Color foreground, IconData icon) =
-        switch (tone) {
-          AppBannerTone.info => (
-            colors.infoSoft,
-            colors.info,
-            colors.info,
-            Icons.info_outline,
-          ),
-          AppBannerTone.success => (
-            colors.successSoft,
-            colors.success,
-            colors.success,
-            Icons.check_circle_outline,
-          ),
-          AppBannerTone.warning => (
-            colors.warningSoft,
-            colors.warning,
-            colors.warning,
-            Icons.warning_amber_outlined,
-          ),
-          AppBannerTone.danger => (
-            colors.dangerSoft,
-            colors.danger,
-            colors.danger,
-            Icons.error_outline,
-          ),
-        };
+    final (
+      Color background,
+      Color border,
+      Color foreground,
+      IconData icon,
+    ) = switch (tone) {
+      AppBannerTone.info => (
+        colors.infoSoft,
+        colors.info,
+        colors.info,
+        Icons.info_outline,
+      ),
+      AppBannerTone.success => (
+        colors.successSoft,
+        colors.success,
+        colors.success,
+        Icons.check_circle_outline,
+      ),
+      AppBannerTone.warning => (
+        colors.warningSoft,
+        colors.warning,
+        colors.warning,
+        Icons.warning_amber_outlined,
+      ),
+      AppBannerTone.danger => (
+        colors.dangerSoft,
+        colors.danger,
+        colors.danger,
+        Icons.error_outline,
+      ),
+    };
 
     return Container(
       padding: EdgeInsets.all(theme.space4),

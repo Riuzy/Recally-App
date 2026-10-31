@@ -99,13 +99,7 @@ class _AppTextFieldState extends State<AppTextField> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(theme.radiusControl),
             boxShadow: showRing
-                ? [
-                    BoxShadow(
-                      color: ringColor,
-                      spreadRadius: 3,
-                      blurRadius: 0,
-                    ),
-                  ]
+                ? [BoxShadow(color: ringColor, spreadRadius: 3, blurRadius: 0)]
                 : const [],
           ),
           child: TextField(
