@@ -115,6 +115,18 @@ flutter run --dart-define-from-file=env.json
 ```
 Tanpa `env.json`, aplikasi tetap berjalan penuh secara lokal (tanpa akun/sync).
 
+**Pratinjau web (khusus development):**
+```bash
+cd apps/mobile
+flutter run -d chrome --dart-define-from-file=env.json
+```
+Web memakai Drift WASM (`web/sqlite3.wasm` + `web/drift_worker.js`) dan
+menyimpan data di IndexedDB browser, terpisah dari data Android. Worker bisa
+dibuat ulang dengan:
+```bash
+dart compile js web/drift_worker.dart -o web/drift_worker.js -O2
+```
+
 **API (Express):**
 ```bash
 cd apps/api
