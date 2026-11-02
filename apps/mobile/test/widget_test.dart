@@ -44,7 +44,8 @@ void main() {
     await settle(tester);
 
     expect(find.byType(RecallyApp), findsOneWidget);
-    expect(find.text('Hari ini'), findsWidgets);
+    expect(find.text('Hari Ini'), findsWidgets);
+    expect(find.text('SESI HARI INI'), findsOneWidget);
 
     await closeApp(tester);
   });

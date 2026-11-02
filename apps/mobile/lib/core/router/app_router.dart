@@ -6,6 +6,7 @@ import '../../features/decks/presentation/decks_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/shell/presentation/app_shell.dart';
+import '../../features/study/presentation/study_session_screen.dart';
 import '../../features/today/presentation/today_screen.dart';
 
 /// Satu router per `ProviderScope`, supaya state navigasi tidak bocor antar
@@ -65,6 +66,20 @@ class AppRouter {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/session',
+        name: 'session',
+        builder: (context, state) {
+          final raw = state.uri.queryParameters['cards'];
+          final ids = raw == null || raw.isEmpty
+              ? null
+              : raw
+                    .split(',')
+                    .where((id) => id.isNotEmpty)
+                    .toList(growable: false);
+          return StudySessionScreen(cardIds: ids);
+        },
       ),
     ],
   );

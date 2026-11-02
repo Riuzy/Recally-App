@@ -16,6 +16,16 @@ final cardsByDeckProvider = StreamProvider.autoDispose
       (ref, deckId) => ref.watch(cardRepositoryProvider).watchByDeck(deckId),
     );
 
+/// Kartu yang jatuh tempo hari ini, untuk layar Hari Ini dan sesi belajar.
+final dueCardsProvider = StreamProvider.autoDispose<List<CardRow>>(
+  (ref) => ref.watch(cardRepositoryProvider).watchDue(),
+);
+
+/// Kartu terdekat yang akan jatuh tempo setelah sekarang.
+final nextDueCardProvider = StreamProvider.autoDispose<CardRow?>(
+  (ref) => ref.watch(cardRepositoryProvider).watchNextDue(),
+);
+
 class CardRepository {
   CardRepository(this._db);
 
@@ -38,6 +48,16 @@ class CardRepository {
     return query.watch();
   }
 
+  /// Kartu aktif berikutnya yang jatuh tempo setelah [after].
+  Stream<CardRow?> watchNextDue({DateTime? after}) {
+    final now = after ?? DateTime.now();
+    final query = _db.select(_db.cards)
+      ..where((t) => t.deletedAt.isNull() & t.dueAt.isBiggerThanValue(now))
+      ..orderBy([(t) => OrderingTerm.asc(t.dueAt)])
+      ..limit(1);
+    return query.watchSingleOrNull();
+  }
+
   Future<int> countDue({DateTime? at}) async {
     final now = at ?? DateTime.now();
     final count = _db.cards.id.count();
@@ -49,6 +69,24 @@ class CardRepository {
       );
     final row = await query.getSingle();
     return row.read(count) ?? 0;
+  }
+
+  /// Snapshot kartu jatuh tempo saat sesi dimulai.
+  Future<List<CardRow>> dueCards({DateTime? at}) {
+    final now = at ?? DateTime.now();
+    final query = _db.select(_db.cards)
+      ..where((t) => t.deletedAt.isNull() & t.dueAt.isSmallerOrEqualValue(now))
+      ..orderBy([(t) => OrderingTerm.asc(t.dueAt)]);
+    return query.get();
+  }
+
+  /// Kartu tertentu yang masih aktif, dipakai untuk "Ulangi kartu yang lupa".
+  Future<List<CardRow>> cardsByIds(List<String> ids) {
+    if (ids.isEmpty) return Future.value(const []);
+    final query = _db.select(_db.cards)
+      ..where((t) => t.id.isIn(ids) & t.deletedAt.isNull())
+      ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]);
+    return query.get();
   }
 
   Future<String> create({

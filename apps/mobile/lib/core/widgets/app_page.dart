@@ -11,6 +11,7 @@ class AppPage extends StatelessWidget {
     required this.title,
     required this.child,
     this.subtitle,
+    this.eyebrow,
     this.trailing,
     this.leading,
     this.padding,
@@ -18,6 +19,7 @@ class AppPage extends StatelessWidget {
 
   final String title;
   final String? subtitle;
+  final String? eyebrow;
   final Widget? trailing;
   final Widget? leading;
   final Widget child;
@@ -54,6 +56,15 @@ class AppPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (eyebrow != null) ...[
+                        Text(
+                          eyebrow!,
+                          style: AppTypography.overline.copyWith(
+                            color: colors.muted,
+                          ),
+                        ),
+                        SizedBox(height: theme.space1),
+                      ],
                       Text(
                         title,
                         style: AppTypography.h1.copyWith(color: colors.ink),

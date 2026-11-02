@@ -17,7 +17,7 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | Bootstrap Supabase + `AuthRepository` | ✅ selesai |
 | Skema Postgres + RLS (`apps/api/supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
 | `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
-| **UI aplikasi** | 🟡 shell 4 tab + CRUD deck & kartu (Milestone 1.1–1.3) |
+| **UI aplikasi** | 🟡 shell 4 tab + CRUD deck & kartu + sesi belajar (Milestone 1.1–1.4) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |
 
 ## Prinsip yang tidak boleh dilanggar
@@ -83,17 +83,26 @@ dan validasi menolak kartu kosong.
 
 ### 1.4 Hari Ini + sesi belajar (KF-3, KF-4, KF-5)
 
+**Status:** ✅ selesai — Hari Ini menampilkan jumlah kartu jatuh tempo dan
+streak dari tabel `reviews`. Sesi layar penuh mendukung mode Tulis jawaban dan
+Hafalan, perbandingan "Jawabanmu" vs "Jawaban benar", tiga nilai, ringkasan,
+serta "Ulangi kartu yang lupa".
+
 | # | Tugas |
 | --- | --- |
-| 1 | Hari Ini: jumlah kartu jatuh tempo, streak, tombol "Mulai belajar" |
+| 1 | Hari Ini: jumlah kartu jatuh tempo, streak, tombol "Mulai sesi" |
 | 2 | Layar sesi: Tulis Jawaban → Periksa Jawaban |
 | 3 | Layar bandingkan: "Jawabanmu" vs "Jawaban benar" |
 | 4 | Tiga tombol penilaian memanggil `CardRepository.applyReview` |
-| 5 | Ringkasan sesi: jumlah kartu, akurasi, tombol selesai |
+| 5 | Ringkasan sesi: jumlah kartu per nilai, streak, tombol selesai |
 | 6 | Mode Hafalan (tanpa mengetik) sebagai jalur alternatif |
 
 **Selesai bila:** menyelesaikan satu sesi mengubah `dueAt` sesuai
 `SrsEngine`, dan kartu "Lupa" muncul lagi setelah 10 menit.
+
+Catatan: ringkasan sengaja menampilkan rincian nilai, bukan persentase akurasi,
+karena penilaian dilakukan manual oleh pengguna (desain §13: jangan menampilkan
+skor persentase palsu).
 
 ---
 
