@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../core/dev/demo_seed.dart';
-import '../../../core/settings/theme_mode_provider.dart';
 import '../../../core/theme/app_theme_extension.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/widgets.dart';
@@ -65,32 +64,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final themeMode = ref.watch(themeModeProvider);
-    final controller = ref.read(themeModeProvider.notifier);
 
     return AppPage(
       title: 'Pengaturan',
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          Text(
-            'TAMPILAN',
-            style: AppTypography.overline.copyWith(color: colors.muted),
-          ),
-          SizedBox(height: theme.space3),
-          Wrap(
-            spacing: theme.space2,
-            runSpacing: theme.space2,
-            children: [
-              for (final mode in ThemeMode.values)
-                AppChip(
-                  label: mode.label,
-                  selected: themeMode == mode,
-                  onTap: () => controller.setMode(mode),
-                ),
-            ],
-          ),
-          SizedBox(height: theme.space8),
           Text(
             'AKUN',
             style: AppTypography.overline.copyWith(color: colors.muted),

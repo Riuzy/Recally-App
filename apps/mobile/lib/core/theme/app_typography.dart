@@ -1,78 +1,80 @@
 import 'package:flutter/material.dart';
 
-/// Skala tipografi dari `docs/design/desain.md` §5.2.
+/// Skala tipografi dari `docs/design/desain.md`.
 ///
-/// SF Pro tidak tersedia di Android; Flutter otomatis jatuh ke font sistem.
-/// Hierarki, ukuran, dan weight tetap sama di semua platform.
+/// Satu keluarga font: Inter. Judul 20 tebal, subjudul 16 semibold, isi 14,
+/// label 11. Hierarki dibangun dari ukuran dan weight, bukan warna.
 class AppTypography {
   const AppTypography._();
 
-  static const String displayFamily = 'SF Pro Display';
-  static const String textFamily = 'SF Pro Text';
+  static const String family = 'Inter';
 
+  /// Angka besar dan satu titik fokus per layar.
   static const TextStyle display = TextStyle(
-    fontFamily: displayFamily,
-    fontSize: 36,
-    height: 40 / 36,
+    fontFamily: family,
+    fontSize: 32,
+    height: 38 / 32,
     fontWeight: FontWeight.w700,
-    letterSpacing: -1.08, // -0.03em
+    letterSpacing: -0.6,
   );
 
   static const TextStyle h1 = TextStyle(
-    fontFamily: displayFamily,
-    fontSize: 30,
-    height: 36 / 30,
+    fontFamily: family,
+    fontSize: 20,
+    height: 26 / 20,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.9, // -0.03em
+    letterSpacing: -0.2,
   );
 
   static const TextStyle h2 = TextStyle(
-    fontFamily: displayFamily,
-    fontSize: 24,
-    height: 30 / 24,
+    fontFamily: family,
+    fontSize: 20,
+    height: 26 / 20,
     fontWeight: FontWeight.w600,
+    letterSpacing: -0.2,
   );
 
   static const TextStyle h3 = TextStyle(
-    fontFamily: textFamily,
-    fontSize: 18,
-    height: 24 / 18,
+    fontFamily: family,
+    fontSize: 16,
+    height: 22 / 16,
     fontWeight: FontWeight.w600,
   );
 
   static const TextStyle bodyLarge = TextStyle(
-    fontFamily: textFamily,
+    fontFamily: family,
     fontSize: 16,
     height: 24 / 16,
     fontWeight: FontWeight.w400,
   );
 
   static const TextStyle body = TextStyle(
-    fontFamily: textFamily,
-    fontSize: 15,
-    height: 23 / 15,
+    fontFamily: family,
+    fontSize: 14,
+    height: 20 / 14,
     fontWeight: FontWeight.w400,
   );
 
   static const TextStyle label = TextStyle(
-    fontFamily: textFamily,
-    fontSize: 13,
-    height: 18 / 13,
+    fontFamily: family,
+    fontSize: 11,
+    height: 16 / 11,
     fontWeight: FontWeight.w600,
+    letterSpacing: 0.2,
   );
 
   static const TextStyle caption = TextStyle(
-    fontFamily: textFamily,
-    fontSize: 12,
-    height: 16 / 12,
-    fontWeight: FontWeight.w500,
+    fontFamily: family,
+    fontSize: 11,
+    height: 16 / 11,
+    fontWeight: FontWeight.w400,
   );
 
   static const TextStyle overline = TextStyle(
-    fontFamily: textFamily,
-    fontSize: 10,
-    height: 14 / 10,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 1.2, // 0.12em
+    fontFamily: family,
+    fontSize: 11,
+    height: 16 / 11,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.8,
   );
 }

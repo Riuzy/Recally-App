@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme_extension.dart';
 import '../theme/app_typography.dart';
 
-/// Empty state sesuai `docs/design/desain.md` §8.1: satu ikon, satu judul,
-/// satu penjelasan singkat, satu aksi.
+/// Empty state: satu ikon lembut, satu judul, satu penjelasan, satu aksi.
 class AppEmptyState extends StatelessWidget {
   const AppEmptyState({
     super.key,
@@ -37,13 +36,13 @@ class AppEmptyState extends StatelessWidget {
                 color: colors.accentSoft,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 32, color: colors.accent),
+              child: Icon(icon, size: 32, color: colors.accentStrong),
             ),
             SizedBox(height: theme.space5),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: AppTypography.h3.copyWith(color: colors.ink),
+              style: AppTypography.h1.copyWith(color: colors.ink),
             ),
             if (message != null) ...[
               SizedBox(height: theme.space2),

@@ -13,6 +13,11 @@ final streakProvider = StreamProvider.autoDispose<int>(
   (ref) => ref.watch(reviewRepositoryProvider).watchStreak(),
 );
 
+/// Jumlah kartu yang sudah dinilai hari ini.
+final reviewedTodayProvider = StreamProvider.autoDispose<int>(
+  (ref) => ref.watch(reviewRepositoryProvider).watchReviewedToday(),
+);
+
 class ReviewRepository {
   ReviewRepository(this._db);
 
@@ -28,6 +33,21 @@ class ReviewRepository {
           if (row.read(_db.reviews.reviewedAt) case final value?) value,
       ];
       return computeStreak(timestamps, now: now ?? DateTime.now());
+    });
+  }
+
+  Stream<int> watchReviewedToday({DateTime? now}) {
+    final at = now ?? DateTime.now();
+    final start = DateTime(at.year, at.month, at.day);
+    final end = start.add(const Duration(days: 1));
+    
+    return _db.select(_db.reviews).watch().map((rows) {
+      return rows.where((row) {
+        final reviewedAt = row.reviewedAt;
+        return reviewedAt != null && 
+               !reviewedAt.isBefore(start) && 
+               reviewedAt.isBefore(end);
+      }).length;
     });
   }
 }

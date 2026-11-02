@@ -5,10 +5,7 @@ import '../theme/app_typography.dart';
 
 enum AppBannerTone { info, success, warning, danger }
 
-/// Banner inline sesuai `docs/design/desain.md` §7.9 dan §8.
-///
-/// Dipakai untuk status offline, error ringan, atau konfirmasi. Bukan untuk
-/// pesan pemasaran.
+/// Banner inline premium: ikon + teks + aksi. Tone sesuai intent.
 class AppBanner extends StatelessWidget {
   const AppBanner({
     super.key,
@@ -29,27 +26,27 @@ class AppBanner extends StatelessWidget {
     final colors = theme.colors;
 
     final (
-      Color background,
-      Color border,
-      Color foreground,
+      Color bgColor,
+      Color borderColor,
+      Color iconColor,
       IconData icon,
     ) = switch (tone) {
       AppBannerTone.info => (
         colors.infoSoft,
         colors.info,
-        colors.info,
+        colors.ink,
         Icons.info_outline,
       ),
       AppBannerTone.success => (
         colors.successSoft,
         colors.success,
-        colors.success,
+        colors.ink,
         Icons.check_circle_outline,
       ),
       AppBannerTone.warning => (
         colors.warningSoft,
         colors.warning,
-        colors.warning,
+        colors.ink,
         Icons.warning_amber_outlined,
       ),
       AppBannerTone.danger => (
@@ -63,19 +60,22 @@ class AppBanner extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(theme.space4),
       decoration: BoxDecoration(
-        color: background,
+        color: bgColor,
         borderRadius: BorderRadius.circular(theme.radiusControl),
-        border: Border.all(color: border),
+        border: Border.all(
+          color: borderColor.withValues(alpha: 0.55),
+          width: 1,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: foreground),
+          Icon(icon, size: 20, color: iconColor),
           SizedBox(width: theme.space3),
           Expanded(
             child: Text(
               message,
-              style: AppTypography.body.copyWith(color: foreground),
+              style: AppTypography.body.copyWith(color: iconColor, height: 1.5),
             ),
           ),
           if (actionLabel != null) ...[
@@ -84,7 +84,10 @@ class AppBanner extends StatelessWidget {
               onTap: onAction,
               child: Text(
                 actionLabel!,
-                style: AppTypography.label.copyWith(color: colors.accent),
+                style: AppTypography.label.copyWith(
+                  color: colors.accentStrong,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],

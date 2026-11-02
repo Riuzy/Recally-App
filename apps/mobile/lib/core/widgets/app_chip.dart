@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme_extension.dart';
 import '../theme/app_typography.dart';
 
-/// Chip sesuai `docs/design/desain.md` §7.4 — radius 10, bukan pill.
+/// Chip kapsul premium. Aktif: oranye lembut, teks navy bold.
 class AppChip extends StatelessWidget {
   const AppChip({
     super.key,
@@ -24,7 +24,11 @@ class AppChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final foreground = selected ? colors.accent : colors.inkSoft;
+
+    final bgColor = selected ? colors.accentSoft : colors.surface;
+    final borderColor = selected ? colors.accent : colors.border;
+    final textColor = colors.ink;
+    final iconColor = selected ? colors.accentStrong : colors.muted;
 
     return Semantics(
       button: onTap != null,
@@ -36,30 +40,33 @@ class AppChip extends StatelessWidget {
         child: AnimatedContainer(
           duration: theme.motionFast,
           curve: Curves.easeOut,
-          height: 32,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          constraints: const BoxConstraints(minHeight: 44),
+          padding: EdgeInsets.symmetric(
+            horizontal: theme.space4,
+            vertical: theme.space1,
+          ),
           decoration: BoxDecoration(
-            color: selected ? colors.accentSoft : colors.surface2,
+            color: bgColor,
             borderRadius: BorderRadius.circular(theme.radiusChip),
-            border: Border.all(color: selected ? colors.accent : colors.border),
+            border: Border.all(color: borderColor, width: 1),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null) ...[
-                Icon(icon, size: 16, color: foreground),
-                SizedBox(width: theme.space1 + 2),
+                Icon(icon, size: 16, color: iconColor),
+                SizedBox(width: theme.space2),
               ],
               Text(
                 label,
-                style: AppTypography.caption.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: foreground,
+                style: AppTypography.label.copyWith(
+                  color: textColor,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                 ),
               ),
               if (trailingIcon != null) ...[
-                SizedBox(width: theme.space1 + 2),
-                Icon(trailingIcon, size: 16, color: foreground),
+                SizedBox(width: theme.space2),
+                Icon(trailingIcon, size: 16, color: iconColor),
               ],
             ],
           ),

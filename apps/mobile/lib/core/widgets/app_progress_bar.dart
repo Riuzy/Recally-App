@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme_extension.dart';
+import '../../../core/theme/app_theme_extension.dart';
 
-/// Progress sesuai `docs/design/desain.md` §7.5: track 4px, tanpa shimmer.
+/// Progress kapsul: track krem gelap, isi oranye solid.
+///
+/// Versi dengan label angka, dipakai untuk grafik aktivitas.
 class AppProgressBar extends StatelessWidget {
-  const AppProgressBar({super.key, required this.value, this.height = 4});
+  const AppProgressBar({
+    super.key,
+    required this.value,
+    this.height = 6,
+    this.label,
+  });
 
   /// Nilai 0..1. Di luar rentang akan dijepit.
   final double value;
   final double height;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +33,7 @@ class AppProgressBar extends StatelessWidget {
             Positioned.fill(child: ColoredBox(color: colors.surface3)),
             FractionallySizedBox(
               widthFactor: clamped,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [colors.accentStrong, colors.accent2],
-                  ),
-                ),
-              ),
+              child: ColoredBox(color: colors.accent),
             ),
           ],
         ),

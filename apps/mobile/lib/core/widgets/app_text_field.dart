@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme_extension.dart';
 import '../theme/app_typography.dart';
 
-/// Input sesuai `docs/design/desain.md` §7.2.
-///
-/// Label selalu berada di atas field, bukan placeholder. Fokus memakai border
-/// `accent` plus ring 3px lembut di belakangnya.
+/// Input dengan label di atas field. Fokus memakai border oranye dan ring
+/// lembut, bukan bayangan tebal.
 class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
@@ -78,12 +76,7 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final showRing = _focused && widget.enabled;
-
-    final ringColor = isDark
-        ? colors.accent.withValues(alpha: 0.18)
-        : colors.accentSoft;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +92,13 @@ class _AppTextFieldState extends State<AppTextField> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(theme.radiusControl),
             boxShadow: showRing
-                ? [BoxShadow(color: ringColor, spreadRadius: 3, blurRadius: 0)]
+                ? [
+                    BoxShadow(
+                      color: colors.accent.withValues(alpha: 0.16),
+                      spreadRadius: 3,
+                      blurRadius: 0,
+                    ),
+                  ]
                 : const [],
           ),
           child: TextField(

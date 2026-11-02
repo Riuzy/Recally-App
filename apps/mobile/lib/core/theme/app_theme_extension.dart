@@ -7,6 +7,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.radiusCard,
     required this.radiusControl,
     required this.radiusChip,
+    required this.radiusPill,
     required this.radiusSheet,
     required this.space1,
     required this.space2,
@@ -23,10 +24,22 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   });
 
   final AppColors colors;
+
+  /// Kartu 12px.
   final double radiusCard;
+
+  /// Input dan kontrol 12px.
   final double radiusControl;
+
+  /// Chip tetap kapsul agar tidak bersaing dengan tombol utama.
   final double radiusChip;
+
+  /// Tombol utama dan sekunder berbentuk kapsul.
+  final double radiusPill;
+
+  /// Bottom sheet.
   final double radiusSheet;
+
   final double space1;
   final double space2;
   final double space3;
@@ -37,41 +50,17 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final double space10;
   final double space12;
 
-  /// Perubahan state, 180ms (desain §10).
   final Duration motionFast;
-
-  /// Transisi layar, 200ms.
   final Duration motionScreen;
-
-  /// Bottom sheet dan glow, 240ms.
   final Duration motionSlow;
 
   static const light = AppThemeExtension(
     colors: AppColors.light,
-    radiusCard: 16,
+    radiusCard: 12,
     radiusControl: 12,
-    radiusChip: 10,
-    radiusSheet: 28,
-    space1: 4,
-    space2: 8,
-    space3: 12,
-    space4: 16,
-    space5: 20,
-    space6: 24,
-    space8: 32,
-    space10: 40,
-    space12: 48,
-    motionFast: Duration(milliseconds: 180),
-    motionScreen: Duration(milliseconds: 200),
-    motionSlow: Duration(milliseconds: 240),
-  );
-
-  static const dark = AppThemeExtension(
-    colors: AppColors.dark,
-    radiusCard: 16,
-    radiusControl: 12,
-    radiusChip: 10,
-    radiusSheet: 28,
+    radiusChip: 999,
+    radiusPill: 999,
+    radiusSheet: 24,
     space1: 4,
     space2: 8,
     space3: 12,
@@ -92,6 +81,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     double? radiusCard,
     double? radiusControl,
     double? radiusChip,
+    double? radiusPill,
     double? radiusSheet,
     double? space1,
     double? space2,
@@ -111,6 +101,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       radiusCard: radiusCard ?? this.radiusCard,
       radiusControl: radiusControl ?? this.radiusControl,
       radiusChip: radiusChip ?? this.radiusChip,
+      radiusPill: radiusPill ?? this.radiusPill,
       radiusSheet: radiusSheet ?? this.radiusSheet,
       space1: space1 ?? this.space1,
       space2: space2 ?? this.space2,
@@ -135,6 +126,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       radiusCard: radiusCard,
       radiusControl: radiusControl,
       radiusChip: radiusChip,
+      radiusPill: radiusPill,
       radiusSheet: radiusSheet,
       space1: space1,
       space2: space2,

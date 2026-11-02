@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// Token warna RECALLY versi krem–navy–oranye.
+///
+/// Palet ini hanya punya satu tema (terang). Oranye adalah warna tindakan;
+/// teks di atas oranye selalu navy agar kontras tetap aman.
 class AppColors {
   const AppColors({
     required this.canvas,
@@ -62,95 +66,37 @@ class AppColors {
   final BoxShadow shadowSurface;
 
   static const light = AppColors(
-    canvas: Color(0xFFF7F8FB),
-    surface: Color(0xFFFFFFFF),
-    surface2: Color(0xFFF1F3F8),
-    surface3: Color(0xFFE7EAF2),
-    ink: Color(0xFF0E1220),
-    inkSoft: Color(0xFF4A5165),
-    muted: Color(0xFF7A8296),
-    border: Color(0xFFDDE2EC),
-    borderStrong: Color(0xFFC3CAD9),
-    overlay: Color(0x660E1220), // rgba(14,18,32,0.40)
-    glass: Color(0xC7FFFFFF), // rgba(255,255,255,0.78)
-    accent: Color(0xFF2F5BD6),
-    accentStrong: Color(0xFF2A50C2),
-    accent2: Color(0xFF1E9FD4),
-    accentPressed: Color(0xFF2444A6),
-    accentSoft: Color(0xFFE4EAFC),
-    success: Color(0xFF0F8A5F),
-    successSoft: Color(0xFFE2F6EC),
-    warning: Color(0xFF9A6503),
-    warningSoft: Color(0xFFFBF0DA),
-    danger: Color(0xFFC93A57),
-    dangerSoft: Color(0xFFFCE8EC),
-    info: Color(0xFF1E7FA8),
-    infoSoft: Color(0xFFE3F2FA),
+    canvas: Color(0xFFF4F1EC), // krem
+    surface: Color(0xFFFFFFFF), // putih kartu
+    surface2: Color(0xFFFAF7F2), // krem sangat muda
+    surface3: Color(0xFFEDE7DE), // track dan state nonaktif
+    ink: Color(0xFF1B2A41), // navy
+    inkSoft: Color(0xFF3F4E61),
+    muted: Color(0xFF5C6B7A), // abu-abu biru
+    border: Color(0xFFC9CED6),
+    borderStrong: Color(0xFFAEB6C2),
+    overlay: Color(0x6B1B2A41), // rgba(27,42,65,0.42)
+    glass: Color(0xF7FFFDF9),
+    accent: Color(0xFFE07A1F), // oranye
+    accentStrong: Color(0xFFB85A10), // oranye gelap untuk teks/ikon kecil
+    accent2: Color(0xFFE07A1F),
+    accentPressed: Color(0xFFC96A16),
+    accentSoft: Color(0xFFFBE9D7),
+    success: Color(0xFF2F6B4A), // teks hijau tua
+    successSoft: Color(0xFFC8EBD7), // latar "Ingat"
+    warning: Color(0xFF7A5A00), // teks kuning tua
+    warningSoft: Color(0xFFFCE8A6), // latar "Ragu"
+    danger: Color(0xFFB3261E), // galat dan aksi hapus
+    dangerSoft: Color(0xFFF4C7C3), // latar "Lupa"
+    info: Color(0xFF4B6078),
+    infoSoft: Color(0xFFE8EDF2),
     gradientPrimary: LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      colors: [Color(0xFF2A50C2), Color(0xFF1E7FD8)],
+      colors: [Color(0xFFE07A1F), Color(0xFFE07A1F)],
     ),
-    glowAccent: BoxShadow(
-      color: Color(0x382F5BD6), // rgba(47,91,214,0.22)
-      blurRadius: 24,
-      offset: Offset(0, 8),
-    ),
-    innerHighlight: BoxShadow(
-      color: Color(0x99FFFFFF), // rgba(255,255,255,0.60)
-      blurRadius: 0,
-      offset: Offset(0, 1),
-      spreadRadius: -1,
-    ),
-    shadowSurface: BoxShadow(
-      color: Color(0x0F0E1220), // rgba(14,18,32,0.06)
-      blurRadius: 2,
-      offset: Offset(0, 1),
-    ),
-  );
-
-  static const dark = AppColors(
-    canvas: Color(0xFF090A0F),
-    surface: Color(0xFF111319),
-    surface2: Color(0xFF171A23),
-    surface3: Color(0xFF1D2130),
-    ink: Color(0xFFF5F7FC),
-    inkSoft: Color(0xFFA7AEBD),
-    muted: Color(0xFF737B8C),
-    border: Color(0xFF262B38),
-    borderStrong: Color(0xFF343B4D),
-    overlay: Color(0xB8000000), // rgba(0,0,0,0.72)
-    glass: Color(0xB8111319), // rgba(17,19,25,0.72)
-    accent: Color(0xFF5B8CFF),
-    accentStrong: Color(0xFF3F6FE0),
-    accent2: Color(0xFF4DD4FF),
-    accentPressed: Color(0xFF2F5BD6),
-    accentSoft: Color(0xFF17213A),
-    success: Color(0xFF3DDC97),
-    successSoft: Color(0xFF0F2A22),
-    warning: Color(0xFFF5B544),
-    warningSoft: Color(0xFF2A2111),
-    danger: Color(0xFFFF5C7A),
-    dangerSoft: Color(0xFF2A1218),
-    info: Color(0xFF7DD3FC),
-    infoSoft: Color(0xFF13202A),
-    gradientPrimary: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [Color(0xFF3F6FE0), Color(0xFF2F7FD8)],
-    ),
-    glowAccent: BoxShadow(
-      color: Color(0x475B8CFF), // rgba(91,140,255,0.28)
-      blurRadius: 24,
-      spreadRadius: 0,
-      offset: Offset(0, 0),
-    ),
-    innerHighlight: BoxShadow(
-      color: Color(0x0AFFFFFF), // rgba(255,255,255,0.04)
-      blurRadius: 0,
-      offset: Offset(0, 1),
-      spreadRadius: -1,
-    ),
+    glowAccent: BoxShadow(color: Colors.transparent),
+    innerHighlight: BoxShadow(color: Colors.transparent),
     shadowSurface: BoxShadow(color: Colors.transparent),
   );
 }

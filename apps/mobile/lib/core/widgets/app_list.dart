@@ -4,8 +4,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/app_theme_extension.dart';
 import '../theme/app_typography.dart';
 
-/// Grup baris sesuai desain §7.8: satu wadah, divider 1px, tanpa kartu per
-/// baris. Dipakai untuk daftar deck, kartu, dan pengaturan.
+/// Satu wadah putih untuk daftar. Baris dipisahkan garis tipis, bukan kartu
+/// bertumpuk. Dipakai untuk deck, kartu, dan pengaturan.
 class AppListGroup extends StatelessWidget {
   const AppListGroup({super.key, required this.children});
 
@@ -16,7 +16,6 @@ class AppListGroup extends StatelessWidget {
     final theme = context.appTheme;
     final colors = theme.colors;
     final radius = BorderRadius.circular(theme.radiusCard);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final rows = <Widget>[];
     for (var index = 0; index < children.length; index++) {
@@ -31,7 +30,6 @@ class AppListGroup extends StatelessWidget {
         color: colors.surface,
         borderRadius: radius,
         border: Border.all(color: colors.border),
-        boxShadow: [isDark ? colors.innerHighlight : colors.shadowSurface],
       ),
       clipBehavior: Clip.antiAlias,
       child: Material(
@@ -112,7 +110,7 @@ class AppListRow extends StatelessWidget {
               SizedBox(width: theme.space2),
               Icon(
                 PhosphorIconsRegular.caretRight,
-                size: 18,
+                size: 16,
                 color: colors.muted,
               ),
             ],

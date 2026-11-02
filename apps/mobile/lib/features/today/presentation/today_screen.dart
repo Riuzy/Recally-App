@@ -19,6 +19,7 @@ class TodayScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final due = ref.watch(dueCardsProvider);
     final streak = ref.watch(streakProvider).valueOrNull ?? 0;
+    final reviewed = ref.watch(reviewedTodayProvider).valueOrNull ?? 0;
     final now = DateTime.now();
     final theme = context.appTheme;
     final colors = context.colors;
@@ -28,11 +29,7 @@ class TodayScreen extends ConsumerWidget {
       title: _greeting(now.hour),
       subtitle: 'Belajar sedikit, ingat lebih lama.',
       trailing: streak > 0
-          ? AppChip(
-              label: '$streak hari',
-              icon: PhosphorIconsRegular.flame,
-              selected: true,
-            )
+          ? AppChip(label: '$streak', icon: PhosphorIconsRegular.flame)
           : null,
       child: ListView(
         padding: EdgeInsets.zero,
@@ -55,7 +52,7 @@ class TodayScreen extends ConsumerWidget {
                     actionLabel: 'Coba lagi',
                     onAction: () => ref.invalidate(dueCardsProvider),
                   ),
-                  data: (cards) => _HeroBody(cards: cards),
+                  data: (cards) => _HeroBody(cards: cards, reviewed: reviewed),
                 ),
               ],
             ),
@@ -74,9 +71,10 @@ class TodayScreen extends ConsumerWidget {
 }
 
 class _HeroBody extends StatelessWidget {
-  const _HeroBody({required this.cards});
+  const _HeroBody({required this.cards, required this.reviewed});
 
   final List<CardRow> cards;
+  final int reviewed;
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +105,16 @@ class _HeroBody extends StatelessWidget {
             ),
           ],
         ),
+        if (reviewed > 0) ...[
+          SizedBox(height: theme.space2),
+          Text(
+            'Sudah $reviewed hari ini',
+            style: AppTypography.caption.copyWith(color: colors.muted),
+          ),
+        ],
         SizedBox(height: theme.space5),
         AppButton(
-          label: 'Mulai sesi',
+          label: hasCards ? 'Mulai sesi' : 'Tidak ada kartu',
           icon: PhosphorIconsRegular.play,
           onPressed: hasCards ? () => context.push('/session') : null,
         ),
@@ -142,7 +147,7 @@ class _HeroBody extends StatelessWidget {
   }
 }
 
-/// Skeleton tanpa shimmer (desain §8.2).
+/// Skeleton tanpa shimmer.
 class _HeroSkeleton extends StatelessWidget {
   const _HeroSkeleton();
 

@@ -5,8 +5,7 @@ import '../../../core/theme/app_theme_extension.dart';
 import '../../../core/theme/app_typography.dart';
 import '../domain/progress_stats.dart';
 
-/// Grafik batang aktivitas ulasan. Flat: tanpa gradient, bayangan, atau label
-/// nilai di atas batang. Batang hari ini memakai warna aksen.
+/// Grafik batang aktivitas ulasan. Batang hari ini memakai oranye solid.
 class ActivityChart extends StatelessWidget {
   const ActivityChart({super.key, required this.days});
 

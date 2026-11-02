@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme_extension.dart';
 import '../theme/app_typography.dart';
 
-/// Kerangka layar: margin 20px, judul H1, jarak 32px ke konten, dan ruang
-/// bawah untuk bottom navigation yang mengambang.
+/// Kerangka layar: margin 20px, judul 20px tebal, jarak 24px ke konten.
 class AppPage extends StatelessWidget {
   const AppPage({
     super.key,
@@ -29,7 +28,6 @@ class AppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
 
     return SafeArea(
       bottom: false,
@@ -38,19 +36,19 @@ class AppPage extends StatelessWidget {
             padding ??
             EdgeInsets.fromLTRB(
               theme.space5,
-              theme.space6,
               theme.space5,
-              72 + bottomInset + theme.space6,
+              theme.space5,
+              theme.space6,
             ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (leading != null) ...[
                   leading!,
-                  SizedBox(width: theme.space3),
+                  SizedBox(width: theme.space2),
                 ],
                 Expanded(
                   child: Column(
@@ -81,10 +79,13 @@ class AppPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (trailing != null) trailing!,
+                if (trailing != null) ...[
+                  SizedBox(width: theme.space3),
+                  trailing!,
+                ],
               ],
             ),
-            SizedBox(height: theme.space8),
+            SizedBox(height: theme.space6),
             Expanded(child: child),
           ],
         ),

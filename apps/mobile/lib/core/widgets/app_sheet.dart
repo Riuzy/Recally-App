@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme_extension.dart';
 
-/// Bottom sheet sesuai `docs/design/desain.md` §7.7.
-///
-/// Satu-satunya tempat selain bottom navigation yang boleh memakai radius
-/// besar (28px atas) dan border kuat.
+/// Bottom sheet putih dengan sudut atas 24px dan handle tipis.
 Future<T?> showAppSheet<T>({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -13,7 +10,6 @@ Future<T?> showAppSheet<T>({
 }) {
   final theme = context.appTheme;
   final colors = theme.colors;
-  final isDark = Theme.of(context).brightness == Brightness.dark;
 
   return showModalBottomSheet<T>(
     context: context,
@@ -25,11 +21,11 @@ Future<T?> showAppSheet<T>({
     builder: (sheetContext) {
       return Container(
         decoration: BoxDecoration(
-          color: isDark ? colors.surface2 : colors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(theme.radiusSheet),
           ),
-          border: Border(top: BorderSide(color: colors.borderStrong)),
+          border: Border(top: BorderSide(color: colors.border)),
         ),
         padding: EdgeInsets.fromLTRB(
           theme.space5,
@@ -44,7 +40,7 @@ Future<T?> showAppSheet<T>({
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: colors.borderStrong,
+                color: colors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

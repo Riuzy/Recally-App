@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -7,8 +5,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../core/theme/app_theme_extension.dart';
 import '../../../core/theme/app_typography.dart';
 
-/// Kerangka 4 tab dengan bottom navigation glass
-/// (`docs/design/desain.md` §7.6).
+/// Kerangka 4 tab dengan bottom navigation putih yang tenang.
+///
+/// Tab aktif memakai kapsul oranye lembut dan label navy. Oranye tidak dipakai
+/// sebagai teks kecil di atas krem.
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.navigationShell});
 
@@ -23,43 +23,31 @@ class AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final colors = context.colors;
 
     return Scaffold(
-      extendBody: true,
       body: navigationShell,
-      bottomNavigationBar: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.glass,
-              border: Border(top: BorderSide(color: colors.border)),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(bottom: bottomInset),
-              child: Material(
-                color: Colors.transparent,
-                child: SizedBox(
-                  height: 72,
-                  child: Row(
-                    children: [
-                      for (var index = 0; index < _tabs.length; index++)
-                        _NavTab(
-                          spec: _tabs[index],
-                          selected: navigationShell.currentIndex == index,
-                          onTap: () => navigationShell.goBranch(
-                            index,
-                            initialLocation:
-                                index == navigationShell.currentIndex,
-                          ),
-                        ),
-                    ],
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surface,
+          border: Border(top: BorderSide(color: colors.border)),
+        ),
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            height: 72,
+            child: Row(
+              children: [
+                for (var index = 0; index < _tabs.length; index++)
+                  _NavTab(
+                    spec: _tabs[index],
+                    selected: navigationShell.currentIndex == index,
+                    onTap: () => navigationShell.goBranch(
+                      index,
+                      initialLocation: index == navigationShell.currentIndex,
+                    ),
                   ),
-                ),
-              ),
+              ],
             ),
           ),
         ),
@@ -97,26 +85,24 @@ class _NavTab extends StatelessWidget {
               AnimatedContainer(
                 duration: theme.motionFast,
                 curve: Curves.easeOut,
-                height: 2,
-                width: selected ? 32 : 0,
+                width: 40,
+                height: 28,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [colors.accent, colors.accent2],
-                  ),
-                  borderRadius: BorderRadius.circular(1),
+                  color: selected ? colors.accentSoft : Colors.transparent,
+                  borderRadius: BorderRadius.circular(theme.radiusPill),
                 ),
-              ),
-              SizedBox(height: theme.space2 + 2),
-              Icon(
-                spec.icon,
-                size: 24,
-                color: selected ? colors.accent : colors.muted,
+                child: Icon(
+                  spec.icon,
+                  size: 20,
+                  color: selected ? colors.accentStrong : colors.muted,
+                ),
               ),
               SizedBox(height: theme.space1),
               Text(
                 spec.label,
-                style: AppTypography.caption.copyWith(
-                  color: selected ? colors.accent : colors.muted,
+                style: AppTypography.label.copyWith(
+                  color: selected ? colors.ink : colors.muted,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ),
             ],

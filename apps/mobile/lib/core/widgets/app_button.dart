@@ -5,10 +5,7 @@ import '../theme/app_typography.dart';
 
 enum AppButtonVariant { primary, secondary, text, danger }
 
-/// Tombol sesuai `docs/design/desain.md` §7.1.
-///
-/// Primary memakai gradient dan hanya boleh satu per layar. Text button
-/// dipakai untuk aksi ringan seperti "Lihat jawaban" atau "Lewati".
+/// Tombol premium krem–navy–oranye. Teks pada oranye selalu navy.
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
@@ -31,52 +28,48 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isEnabled = onPressed != null && !isLoading;
+    final radius = BorderRadius.circular(theme.radiusPill);
 
-    final Color foreground;
-    final BoxDecoration decoration;
-    var shadows = const <BoxShadow>[];
+    Color backgroundColor;
+    Color foregroundColor;
+    BoxShadow? boxShadow;
+    Border? border;
 
     if (!isEnabled) {
-      foreground = colors.muted;
-      decoration = BoxDecoration(
-        color: colors.surface3,
-        borderRadius: BorderRadius.circular(theme.radiusControl),
-      );
+      foregroundColor = colors.muted;
+      backgroundColor = colors.surface3;
+      border = null;
+      boxShadow = null;
     } else {
-      foreground = switch (variant) {
-        AppButtonVariant.primary => Colors.white,
-        AppButtonVariant.secondary => colors.ink,
-        AppButtonVariant.text => colors.accent,
-        AppButtonVariant.danger => isDark ? Colors.white : colors.surface,
-      };
-
       switch (variant) {
         case AppButtonVariant.primary:
-          decoration = BoxDecoration(
-            gradient: colors.gradientPrimary,
-            borderRadius: BorderRadius.circular(theme.radiusControl),
-          );
-          shadows = [colors.glowAccent];
+          foregroundColor = colors.ink;
+          backgroundColor = colors.accent;
+          border = null;
+          boxShadow = null;
         case AppButtonVariant.secondary:
-          decoration = BoxDecoration(
-            color: colors.surface,
-            borderRadius: BorderRadius.circular(theme.radiusControl),
-            border: Border.all(color: colors.border),
+          foregroundColor = colors.ink;
+          backgroundColor = colors.surface;
+          border = Border.all(color: colors.border, width: 1);
+          boxShadow = BoxShadow(
+            color: colors.border.withValues(alpha: 0.2),
+            blurRadius: 2,
+            offset: const Offset(0, 1),
           );
-          shadows = [colors.shadowSurface];
         case AppButtonVariant.text:
-          decoration = const BoxDecoration(color: Colors.transparent);
+          foregroundColor = colors.accentStrong;
+          backgroundColor = Colors.transparent;
+          border = null;
+          boxShadow = null;
         case AppButtonVariant.danger:
-          decoration = BoxDecoration(
-            color: colors.danger,
-            borderRadius: BorderRadius.circular(theme.radiusControl),
-          );
+          foregroundColor = colors.surface;
+          backgroundColor = colors.danger;
+          border = null;
+          boxShadow = null;
       }
     }
 
-    final radius = BorderRadius.circular(theme.radiusControl);
     final content = Row(
       mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -87,11 +80,11 @@ class AppButton extends StatelessWidget {
             height: 18,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(foreground),
+              valueColor: AlwaysStoppedAnimation<Color>(foregroundColor),
             ),
           )
         else if (icon != null)
-          Icon(icon, size: 20, color: foreground),
+          Icon(icon, size: 20, color: foregroundColor),
         if (isLoading || icon != null) SizedBox(width: theme.space2),
         Flexible(
           child: Text(
@@ -100,39 +93,58 @@ class AppButton extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: AppTypography.body.copyWith(
               fontWeight: FontWeight.w600,
-              color: foreground,
+              color: foregroundColor,
             ),
           ),
         ),
       ],
     );
 
+    final decoration = BoxDecoration(
+      color: backgroundColor,
+      borderRadius: radius,
+      border: border,
+      boxShadow: boxShadow != null ? [boxShadow] : null,
+    );
+
+    final child = SizedBox(
+      height: variant == AppButtonVariant.text ? 44 : 52,
+      width: expand ? double.infinity : null,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: variant == AppButtonVariant.text ? 12 : 20,
+        ),
+        child: content,
+      ),
+    );
+
+    if (variant == AppButtonVariant.text) {
+      return Semantics(
+        button: true,
+        enabled: isEnabled,
+        label: label,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: isEnabled ? onPressed : null,
+            customBorder: RoundedRectangleBorder(borderRadius: radius),
+            child: child,
+          ),
+        ),
+      );
+    }
+
     return Semantics(
       button: true,
       enabled: isEnabled,
       label: label,
       child: Container(
-        decoration: BoxDecoration(borderRadius: radius, boxShadow: shadows),
+        decoration: decoration,
         child: Material(
           color: Colors.transparent,
           borderRadius: radius,
           clipBehavior: Clip.antiAlias,
-          child: Ink(
-            decoration: decoration,
-            child: InkWell(
-              onTap: isEnabled ? onPressed : null,
-              child: SizedBox(
-                height: variant == AppButtonVariant.text ? 44 : 52,
-                width: expand ? double.infinity : null,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: variant == AppButtonVariant.text ? 8 : 20,
-                  ),
-                  child: content,
-                ),
-              ),
-            ),
-          ),
+          child: InkWell(onTap: isEnabled ? onPressed : null, child: child),
         ),
       ),
     );
