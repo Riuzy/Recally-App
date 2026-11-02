@@ -11,12 +11,14 @@ class AppChip extends StatelessWidget {
     this.selected = false,
     this.onTap,
     this.icon,
+    this.trailingIcon,
   });
 
   final String label;
   final bool selected;
   final VoidCallback? onTap;
   final IconData? icon;
+  final IconData? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,10 @@ class AppChip extends StatelessWidget {
                   color: foreground,
                 ),
               ),
+              if (trailingIcon != null) ...[
+                SizedBox(width: theme.space1 + 2),
+                Icon(trailingIcon, size: 16, color: foreground),
+              ],
             ],
           ),
         ),

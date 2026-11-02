@@ -17,7 +17,7 @@ visual tetap [`design/desain.md`](./design/desain.md); dokumen ini hanya mengatu
 | Bootstrap Supabase + `AuthRepository` | ✅ selesai |
 | Skema Postgres + RLS (`apps/api/supabase/migrations`) | ✅ diterapkan ke project nyata, RLS terverifikasi |
 | `SyncService` Drift ⇄ Postgres | ✅ selesai (perlu diuji ke project nyata) |
-| **UI aplikasi** | 🟡 shell 4 tab + CRUD deck & kartu + sesi belajar (Milestone 1.1–1.4) |
+| **UI aplikasi** | 🟡 shell 4 tab + deck & kartu + sesi + progres (Milestone 1.1–2.1) |
 | Google Sign-In provider | ❌ belum diaktifkan di console |
 
 ## Prinsip yang tidak boleh dilanggar
@@ -110,6 +110,10 @@ skor persentase palsu).
 
 ### 2.1 Progres (KF-7)
 
+**Status:** ✅ selesai — retensi dan aktivitas dihitung langsung dari tabel
+`reviews`; penguasaan kartu dan progres per deck dihitung dari `cards` yang
+masih aktif. Tidak ada tabel statistik baru dan tidak ada angka contoh.
+
 - Ringkasan: total kartu, kartu dikuasai, jatuh tempo hari ini.
 - Streak harian dari tabel `reviews` (bukan tabel baru).
 - Grafik 7/30 hari: ulasan per hari.
@@ -117,6 +121,10 @@ skor persentase palsu).
 
 **Selesai bila:** angka konsisten dengan isi tabel `reviews` dan tetap benar
 setelah app dibuka-tutup.
+
+Catatan: "dikuasai" berarti interval kartu minimal 21 hari. Retensi adalah
+porsi nilai "Ingat" pada periode terpilih; periode tanpa ulasan menampilkan
+"belum ada data", bukan persentase karangan.
 
 ### 2.2 Pengaturan
 

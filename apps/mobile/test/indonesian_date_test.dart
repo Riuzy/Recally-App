@@ -32,4 +32,16 @@ void main() {
       'Besok, 00:30',
     );
   });
+
+  test('formatDayLabel memakai Hari ini, Kemarin, dan tanggal', () {
+    final now = DateTime(2026, 11, 3, 10);
+
+    expect(formatDayLabel(DateTime(2026, 11, 3), now: now), 'Hari ini');
+    expect(formatDayLabel(DateTime(2026, 11, 2), now: now), 'Kemarin');
+    expect(formatDayLabel(DateTime(2026, 10, 20), now: now), '20 Oktober');
+    expect(
+      formatDayLabel(DateTime(2025, 12, 31), now: now),
+      '31 Desember 2025',
+    );
+  });
 }

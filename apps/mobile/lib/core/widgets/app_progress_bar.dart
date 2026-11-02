@@ -19,6 +19,7 @@ class AppProgressBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(height / 2),
       child: SizedBox(
         height: height,
+        width: double.infinity,
         child: Stack(
           children: [
             Positioned.fill(child: ColoredBox(color: colors.surface3)),

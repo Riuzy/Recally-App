@@ -45,3 +45,19 @@ String formatDueLabel(DateTime due, {DateTime? now}) {
   }
   return '${due.day} ${_monthNames[due.month - 1]}, $time';
 }
+
+/// Label hari tanpa jam: "Hari ini", "Kemarin", atau "20 Oktober".
+String formatDayLabel(DateTime date, {DateTime? now}) {
+  final reference = now ?? DateTime.now();
+  final today = DateTime(reference.year, reference.month, reference.day);
+  final day = DateTime(date.year, date.month, date.day);
+
+  if (day == today) return 'Hari ini';
+  if (day == DateTime(today.year, today.month, today.day - 1)) {
+    return 'Kemarin';
+  }
+
+  final month = _monthNames[date.month - 1];
+  if (date.year == today.year) return '${date.day} $month';
+  return '${date.day} $month ${date.year}';
+}
