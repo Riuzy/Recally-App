@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../core/dev/demo_seed.dart';
 import '../../../core/settings/theme_mode_provider.dart';
 import '../../../core/theme/app_theme_extension.dart';
 import '../../../core/theme/app_typography.dart';
@@ -11,11 +12,57 @@ import '../../../core/widgets/widgets.dart';
 ///
 /// Tema sudah berfungsi; pengingat, TTS, dan akun menyusul pada milestone
 /// berikutnya.
-class SettingsScreen extends ConsumerWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  bool _seeding = false;
+  String? _seedMessage;
+  AppBannerTone _seedTone = AppBannerTone.success;
+
+  Future<void> _seedDemo() async {
+    final confirmed = await showAppConfirmSheet(
+      context,
+      title: 'Isi data contoh?',
+      message:
+          'Deck "Biologi Sel" berisi 12 kartu dan riwayat 7 hari akan '
+          'ditambahkan. Data ini hanya untuk mencoba aplikasi.',
+      confirmLabel: 'Isi data',
+      destructive: false,
+    );
+    if (!confirmed || !mounted) return;
+
+    setState(() {
+      _seeding = true;
+      _seedMessage = null;
+    });
+
+    try {
+      final created = await ref.read(demoSeedProvider).seedIfEmpty();
+      if (!mounted) return;
+      setState(() {
+        _seeding = false;
+        _seedTone = created ? AppBannerTone.success : AppBannerTone.info;
+        _seedMessage = created
+            ? 'Data contoh siap. Buka tab Deck, Hari Ini, atau Progres.'
+            : 'Data contoh sudah ada, tidak ada yang ditambahkan.';
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _seeding = false;
+        _seedTone = AppBannerTone.danger;
+        _seedMessage = 'Gagal membuat data contoh. Coba lagi.';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
     final themeMode = ref.watch(themeModeProvider);
@@ -91,6 +138,53 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
           ),
+          if (demoSeedEnabled) ...[
+            SizedBox(height: theme.space8),
+            Text(
+              'PENGEMBANG',
+              style: AppTypography.overline.copyWith(color: colors.muted),
+            ),
+            SizedBox(height: theme.space3),
+            AppListGroup(
+              children: [
+                AppListRow(
+                  title: 'Isi data contoh',
+                  subtitle:
+                      'Deck "Biologi Sel" dengan 12 kartu dan riwayat 7 '
+                      'hari untuk mencoba sesi dan Progres.',
+                  leading: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: colors.accentSoft,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      PhosphorIconsRegular.cards,
+                      size: 18,
+                      color: colors.accent,
+                    ),
+                  ),
+                  trailing: _seeding
+                      ? SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: colors.accent,
+                          ),
+                        )
+                      : null,
+                  showChevron: !_seeding,
+                  onTap: _seeding ? null : _seedDemo,
+                ),
+              ],
+            ),
+            if (_seedMessage != null) ...[
+              SizedBox(height: theme.space3),
+              AppBanner(message: _seedMessage!, tone: _seedTone),
+            ],
+          ],
           SizedBox(height: theme.space8),
           Text(
             'TENTANG',

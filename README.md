@@ -120,6 +120,11 @@ Tanpa `env.json`, aplikasi tetap berjalan penuh secara lokal (tanpa akun/sync).
 cd apps/mobile
 flutter run -d chrome --dart-define-from-file=env.json
 ```
+Untuk mencoba dengan data contoh, jalankan dengan
+`--dart-define=DEMO_SEED=true`, lalu buka **Pengaturan → Isi data contoh**.
+Data contoh (satu deck Biologi Sel, 12 kartu, riwayat 7 hari) tidak ikut
+tersinkron ke Supabase.
+
 Web memakai Drift WASM (`web/sqlite3.wasm` + `web/drift_worker.js`) dan
 menyimpan data di IndexedDB browser, terpisah dari data Android. Worker bisa
 dibuat ulang dengan:
