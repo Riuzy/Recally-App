@@ -27,10 +27,15 @@ class DemoSeed {
   static const String deckId = 'demo-biologi-sel';
   static const String deckName = 'Biologi Sel';
 
-  /// Menambahkan deck, kartu, dan riwayat ulasan bila database belum punya
-  /// deck sama sekali. Mengembalikan `true` bila data baru dibuat.
-  Future<bool> seedIfEmpty() async {
-    final existing = await (_db.select(_db.decks)..limit(1)).getSingleOrNull();
+  /// Menambahkan deck, kartu, dan riwayat ulasan bila deck contoh belum ada.
+  /// Deck pengguna lain tidak menghalangi seed. Mengembalikan `true` bila data
+  /// baru dibuat.
+  Future<bool> seedIfMissing() async {
+    final existing =
+        await (_db.select(_db.decks)
+              ..where((table) => table.id.equals(deckId))
+              ..limit(1))
+            .getSingleOrNull();
     if (existing != null) return false;
 
     final now = DateTime.now();

@@ -42,7 +42,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
 
     try {
-      final created = await ref.read(demoSeedProvider).seedIfEmpty();
+      final created = await ref.read(demoSeedProvider).seedIfMissing();
       if (!mounted) return;
       setState(() {
         _seeding = false;
