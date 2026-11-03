@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Recally",
+    "slug": "recally",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "recally",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F4F1EC",
+    "newArchEnabled": true,
+    "android": {
+      "package": "com.recally.app",
+      "edgeToEdgeEnabled": true
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.recally.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "headers": {
+            "Cross-Origin-Embedder-Policy": "credentialless",
+            "Cross-Origin-Opener-Policy": "same-origin"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}

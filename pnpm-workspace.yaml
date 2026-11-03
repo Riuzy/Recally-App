@@ -8,6 +8,11 @@ allowBuilds:
   esbuild: true
   prisma: true
 
+minimumReleaseAgeExclude:
+  - '@vitest/mocker@5.1.0'
+  - '@vitest/spy@5.1.0'
+  - vitest@5.1.0
+
 # Dependency yang perlu menjalankan postinstall (binary engine).
 onlyBuiltDependencies:
   - '@prisma/client'

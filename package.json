@@ -7,6 +7,13 @@
     "packages/*"
   ],
   "scripts": {
+    "mobile": "pnpm --filter @recally/mobile start",
+    "mobile:android": "pnpm --filter @recally/mobile android",
+    "mobile:web": "pnpm --filter @recally/mobile web",
+    "mobile:export": "pnpm --filter @recally/mobile export:web",
+    "mobile:typecheck": "pnpm --filter @recally/mobile typecheck",
+    "mobile:lint": "pnpm --filter @recally/mobile lint",
+    "mobile:test": "pnpm --filter @recally/mobile test",
     "db:migrate": "pnpm --filter @recally/api db:migrate",
     "db:verify": "pnpm --filter @recally/api db:verify"
   }

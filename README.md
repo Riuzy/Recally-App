@@ -33,7 +33,7 @@ Monorepo menggunakan [pnpm workspaces](https://pnpm.io/workspaces).
 
 | Bagian | Teknologi | Keterangan |
 | --- | --- | --- |
-| **Mobile (Android-first)** | [Flutter](https://flutter.dev/) + [Dart](https://dart.dev/), [Riverpod](https://riverpod.dev/), [go_router](https://pub.dev/packages/go_router), [Drift](https://drift.simonbinder.eu/) | UI, state management, navigasi, dan local-first database |
+| **Mobile (Android-first)** | [Expo](https://expo.dev/) + [React Native](https://reactnative.dev/) + [TypeScript](https://www.typescriptlang.org/), [Expo Router](https://docs.expo.dev/router/introduction/), [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/) + [Drizzle ORM](https://orm.drizzle.team/) | UI, navigasi, dan local-first database berbasis SQLite |
 | **Backend API** | [Express](https://expressjs.com/) + [TypeScript](https://www.typescriptlang.org/) + [Supabase JS](https://supabase.com/docs/reference/javascript/introduction) | Layanan admin, bukan jalur kritis aplikasi |
 | **Database** | [PostgreSQL](https://www.postgresql.org/) via [Supabase](https://supabase.com/) | Sinkronisasi opsional dan penyimpanan akun |
 | **Auth** | [Supabase Auth](https://supabase.com/docs/guides/auth) | Email + password, Google opsional |
@@ -43,14 +43,14 @@ Monorepo menggunakan [pnpm workspaces](https://pnpm.io/workspaces).
 
 ## Sistem Desain
 
-Arah visual: **AI sleek** — presisi, kontras tinggi, dan tenang. Bukan template dashboard, bukan AI slop.
+Arah visual **v4.0 krem-navy-oranye**: ruang belajar yang tenang dan premium. Bukan template dashboard, bukan AI slop.
 
-- **Dua tema penuh:** light dan dark. Default mengikuti preferensi sistem, dengan override manual di Pengaturan (Ikuti sistem / Terang / Gelap).
-- **Tipografi:** SF Pro / San Francisco. SF Pro Display untuk teks 20px ke atas, SF Pro Text untuk di bawahnya.
-- **Aksen:** electric blue, dipakai sangat terbatas dan terkontrol.
-- **Bentuk:** kartu 16px, tombol/input 12px, chip 10px, bottom sheet 28px.
-- **Elevasi:** dark memakai border tipis + satu glow; light memakai border + shadow sangat lembut.
-- **Glass:** hanya pada bottom navigation dan bottom sheet.
+- **Satu tema:** light saja. Latar krem `#F4F1EC`, teks navy `#1B2A41`, aksen oranye `#E07A1F` hanya untuk tindakan utama. Tanpa mode gelap dan tanpa pemilih tema.
+- **Tipografi:** Inter, ukuran 20 / 16 / 14 / 11.
+- **Bentuk:** kartu radius 12, tombol dan chip pill (999), margin layar 20, tombol minimal 48, target sentuh 44×44.
+- **Warna penilaian:** Lupa `#F4C7C3`, Ragu `#FCE8A6`, Ingat `#C8EBD7` dengan teks navy.
+- **Kedalaman:** datar dan ringan, tanpa gradient, glow, atau bayangan tebal.
+- **Spasi:** kelipatan 8.
 
 Acuan lengkap (palet, token, komponen, state, aksesibilitas, anti-slop) ada di [`docs/design/desain.md`](docs/design/desain.md).
 
@@ -65,7 +65,7 @@ Recally-app/
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── apps/
-│   ├── mobile/      # Flutter app (Recally)
+│   ├── mobile/      # Expo + React Native app (Recally)
 │   └── api/         # Backend: Express, migrasi Postgres, skrip DB
 │       ├── scripts/     # db:migrate, db:verify
 │       └── supabase/    # migrasi SQL + policy RLS
@@ -87,49 +87,57 @@ Recally-app/
 ## Mulai Pengembangan
 
 ### Prasyarat
-- [Flutter](https://docs.flutter.dev/get-started/install) 3.38+ 
 - [Node.js](https://nodejs.org/) 22+
 - [pnpm](https://pnpm.io/) 11+
-- Akun [Supabase](https://supabase.com/) (opsional, hanya untuk sinkronisasi)
+- [Expo Go](https://expo.dev/go) di perangkat Android, atau emulator Android Studio
+- Akun [Supabase](https://supabase.com/) (opsional, hanya untuk API/sinkronisasi)
 
 ### Instalasi
 ```bash
-# Install dependencies untuk monorepo
+# Install dependencies untuk monorepo (termasuk apps/mobile)
 pnpm install
 
 # Terapkan skema Postgres ke Supabase (butuh apps/api/.env)
 pnpm db:migrate
 pnpm db:verify
-
-# Install dependencies Flutter
-cd apps/mobile
-flutter pub get
 ```
 
 ### Menjalankan Aplikasi
 
-**Mobile (Flutter):**
+**Mobile (Expo):**
 ```bash
-cd apps/mobile
-flutter run --dart-define-from-file=env.json
+pnpm mobile            # expo start, lalu pindai QR dengan Expo Go
+pnpm mobile:android    # langsung ke emulator/perangkat Android
 ```
-Tanpa `env.json`, aplikasi tetap berjalan penuh secara lokal (tanpa akun/sync).
 
 **Pratinjau web (khusus development):**
 ```bash
-cd apps/mobile
-flutter run -d chrome --dart-define-from-file=env.json
+pnpm mobile:web
 ```
 Untuk mencoba dengan data contoh, jalankan dengan
-`--dart-define=DEMO_SEED=true`, lalu buka **Pengaturan → Isi data contoh**.
-Data contoh (satu deck Biologi Sel, 12 kartu, riwayat 7 hari) tidak ikut
-tersinkron ke Supabase.
+`EXPO_PUBLIC_DEMO_SEED=true`, lalu buka **Pengaturan → Isi data contoh**.
+Data contoh (satu deck Biologi Sel, 12 kartu, riwayat 7 hari) dibuat secara
+idempoten, tidak menduplikasi baris, dan tidak menimpa deck pengguna.
 
-Web memakai Drift WASM (`web/sqlite3.wasm` + `web/drift_worker.js`) dan
-menyimpan data di IndexedDB browser, terpisah dari data Android. Worker bisa
-dibuat ulang dengan:
+Web memakai SQLite via WASM di dalam Web Worker sehingga butuh header
+`Cross-Origin-Embedder-Policy: credentialless` dan
+`Cross-Origin-Opener-Policy: same-origin`. Header itu sudah diatur untuk
+`expo start --web` dan `expo export --platform web`. Build statis bisa dicoba
+dengan:
 ```bash
-dart compile js web/drift_worker.dart -o web/drift_worker.js -O2
+# bash
+EXPO_PUBLIC_DEMO_SEED=true pnpm mobile:export
+```
+```powershell
+# PowerShell
+$env:EXPO_PUBLIC_DEMO_SEED='true'; pnpm mobile:export
+```
+
+**Pemeriksaan kode:**
+```bash
+pnpm mobile:typecheck
+pnpm mobile:lint
+pnpm mobile:test
 ```
 
 **API (Express):**
@@ -142,16 +150,17 @@ pnpm dev
 
 ## Konfigurasi
 
-- **Package ID (Android):** `com.kyriez.recally`
+- **Package ID (Android):** `com.recally.app`
 - **App Name:** `Recally`
-- **Tema:** Light/Dark dengan mengikuti preferensi sistem (bisa diubah manual di Pengaturan)
-- **Auth:** Opsional. Aplikasi tetap bisa dipakai offline tanpa akun.
-- **Data:** Local-first. Data lokal tidak akan dihapus saat login/logout.
+- **Tema:** Light saja, palet krem-navy-oranye v4.0. Tanpa mode gelap.
+- **Auth & sinkronisasi:** Ditunda untuk versi Expo ini. Aplikasi berjalan penuh secara lokal tanpa akun dan tanpa koneksi.
+- **Data:** Local-first di SQLite perangkat. Kolom `dirty` dan `deleted_at` sudah disiapkan untuk sinkronisasi berikutnya.
 
 ---
 
 ## Catatan
 
 - Bagian palet di `docs/analisis_kebutuhan_recally.md` bersifat historis dan sudah digantikan oleh `docs/design/desain.md`.
-- Auth bersifat opsional; aplikasi tetap bisa dipakai offline tanpa akun.
+- Migrasi Flutter → Expo tetap tersimpan di riwayat git; source Flutter lama ada di commit sebelum migrasi.
+- Auth dan sinkronisasi Supabase belum aktif di aplikasi mobile. API/Postgres tetap ada untuk pekerjaan berikutnya.
 - Data lokal adalah default. Sinkronisasi cloud tidak pernah menjadi gerbang aplikasi.
